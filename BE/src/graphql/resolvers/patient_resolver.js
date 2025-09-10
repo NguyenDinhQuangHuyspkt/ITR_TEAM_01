@@ -2,8 +2,8 @@ const patientService = require('../../services/patient_service');
 
 const patientResolvers = {
   Query: {
-    patients: async (_, { pagination }) => {
-      return patientService.findAll(pagination);
+    patients_list: async (_, { pagination, filter }) => {
+      return patientService.findAll(pagination, filter);
     },
     patient: async (_, { id }) => {
       return patientService.findById(id);
