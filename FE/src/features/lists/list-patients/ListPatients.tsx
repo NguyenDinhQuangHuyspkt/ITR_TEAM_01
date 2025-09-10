@@ -12,7 +12,6 @@ const ListPatients = () => {
   const [data, setData] = useState<IPatient[]>([]);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
     const ClsListPatients = new ListPatientsApi(client);
 
@@ -26,7 +25,7 @@ const ListPatients = () => {
     };
 
     ClsListPatients.attach(observer);
-    ClsListPatients.execute(undefined).catch(() => {});
+    ClsListPatients.execute({page: 1, limit:10}).catch(() => {});
 
     // Cleanup
     return () => {

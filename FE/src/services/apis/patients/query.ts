@@ -1,11 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const LIST_PATIENTS_QUERY = gql`
-  query ListPatients {
+  query Patients {
     patients {
-      email,
-      phone,
-      gender
+      patients {
+        email
+        gender
+        phone,
+        dob,
+      }
     }
   }
 `;
