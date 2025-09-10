@@ -1,0 +1,23 @@
+.list-patients {
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.list-patients .cell-action{
+  display: flex;
+  gap: 10px;
+}
+
+.list-patients h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.ant-table-cell {
+  font-family: "Quicksand", sans-serif;
+}
