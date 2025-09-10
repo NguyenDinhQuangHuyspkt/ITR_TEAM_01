@@ -38,6 +38,7 @@ export const columns : ColumnsType<TColumnsListPatients> = [
     title: 'Physician',
     dataIndex: 'physician',
     key: 'physician',
+    render: (physician) => physician.id
   },
   {
     title: 'Action',

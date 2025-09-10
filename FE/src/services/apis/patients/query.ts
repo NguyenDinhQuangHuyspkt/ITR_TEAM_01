@@ -1,14 +1,20 @@
 import { gql } from "@apollo/client";
 
 export const LIST_PATIENTS_QUERY = gql`
-  query Patients {
-    patients {
+  query Patients_list($pagination: PaginationInput, $filter: PatientFilterSearch) {
+    patients_list(pagination: $pagination, filter: $filter) {
       patients {
         email
+        phone
         gender
-        phone,
-        dob,
+        dob
+        physician {
+          id}
+      }
+      pagination {
+        currentPage
+        totalPages
       }
     }
-  }
+}
 `;

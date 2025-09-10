@@ -4,8 +4,10 @@ import type { IListPatientsResponse, IPatient } from "./type";
 import { LIST_PATIENTS_QUERY } from "./query";
 
 interface IListPatientsVariables {
-  page?: number;
-  limit?: number;
+  pagination: {
+    page: number;
+    limit: number;
+  };
 }
 
 export class ListPatientsApi extends GraphqlCaller<
@@ -17,7 +19,8 @@ export class ListPatientsApi extends GraphqlCaller<
     super(
       client,
       LIST_PATIENTS_QUERY,
-      (raw) => raw.data 
+      // parsePatientsResponse
+      (raw) => raw.patients_list.patients
     );
   }
 }
