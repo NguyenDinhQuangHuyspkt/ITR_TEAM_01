@@ -6,6 +6,7 @@ import type { TApiResult } from "../../../services/types";
 import { ListPatientsApi } from "../../../services/apis/patients/list-patients.svc";
 import type { IPatient } from "../../../services/apis/patients/type";
 import { useApolloClient } from "@apollo/client/react";
+import ModalCreatePatient from "../../modals/modal-create-patient";
 
 const ListPatients = () => {
   const client = useApolloClient();
@@ -35,7 +36,13 @@ const ListPatients = () => {
 
   return (
     <section className="list-patients">
-      <h2 className="">List of Patients</h2>
+      <section className="list-patients-header">
+
+        <h2>List of Patients</h2>
+            
+        <ModalCreatePatient />
+
+      </section>
 
       <Table
         className="ant-table-cell"
