@@ -2,7 +2,7 @@ const Patient = require('../models/patient_model');
 const { PAGINATION } = require('../config/constant');
 
 class PatientService {
-  async findAll(paginationInput = {}) {
+  async findAll(paginationInput = {}, filter = {}) {
     const page = paginationInput.page || PAGINATION.DEFAULT_PAGE;
     const limit = Math.min(
       paginationInput.limit || PAGINATION.DEFAULT_LIMIT,
@@ -10,14 +10,19 @@ class PatientService {
     );
     const skip = (page - 1) * limit;
 
-    const [patients, totalItems] = await Promise.all([
-      Patient.find()
-        .populate('physician')
-        .skip(skip)
-        .limit(limit)
-        .sort({ createdAt: -1 }),
-      Patient.countDocuments()
-    ]);
+    //Query like search email
+    const query = {};
+    if (filter && filter.email) {
+      query.email = { $regex: filter.email, $options: 'i' };
+    }
+
+    const patients = await Patient.find(query)
+      .populate('physician')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const totalItems = await Patient.countDocuments(query);
 
     const totalPages = Math.ceil(totalItems / limit);
 

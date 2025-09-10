@@ -59,8 +59,13 @@ const patientTypeDefs = gql`
     addressInfo: AddressInput
   }
 
+  # Input cho filter like search email của patient
+  input PatientFilterSearch {
+    email: String
+  }
+
   type Query {
-    patients(pagination: PaginationInput): PaginatedPatients!
+    patients_list(pagination: PaginationInput, filter: PatientFilterSearch): PaginatedPatients!
     patient(id: ID!): Patient
     patientsByPhysician(physicianId: ID!): [Patient!]!
     # Query chỉ lấy các trường cơ bản
