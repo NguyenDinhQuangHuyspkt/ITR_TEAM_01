@@ -3,8 +3,8 @@ import { Table } from "antd";
 import { columns } from "./columns";
 import "./style.scss";
 import type { TApiResult } from "../../../services/types";
-import { ListPatientsApi } from "../../../services/apis/patients/list-patients.svc";
-import type { IPatient } from "../../../services/apis/patients/type";
+import { ListPatientsApi } from "../../../services/apis/patients/list/list-patients.svc";
+import type { IPatient } from "../../../services/apis/patients/type-common";
 import { useApolloClient } from "@apollo/client/react";
 import ModalCreatePatient from "../../modals/modal-create-patient";
 

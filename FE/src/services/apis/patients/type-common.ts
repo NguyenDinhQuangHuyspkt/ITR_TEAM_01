@@ -15,9 +15,3 @@ export interface IPatient {
     country: string;
   }
 }
-
-export interface IListPatientsResponse {
-  patients_list: {
-    patients: IPatient[]
-  }
-}
