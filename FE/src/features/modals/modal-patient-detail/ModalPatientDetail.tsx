@@ -81,4 +81,3 @@ const ModalPatientDetail = ({ open, patientId, onClose }: Props) => {
 
 export default ModalPatientDetail;
 
-

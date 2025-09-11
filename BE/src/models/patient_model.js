@@ -24,7 +24,20 @@ const addressSchema = new mongoose.Schema({
   }
 }, { _id: false });
 
-const patientSchema = new mongoose.Schema({ 
+const statusSchema = new mongoose.Schema({
+  isActive: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+}, { _id: false })
+
+const patientSchema = new mongoose.Schema({
+  patient_status: {
+    type: statusSchema,
+    required: false,
+    default: { isActive: false }
+  },
   email: {
     type: String,
     required: true,

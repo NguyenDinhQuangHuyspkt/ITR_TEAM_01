@@ -11,8 +11,8 @@ class PatientService {
     );
     const skip = (page - 1) * limit;
 
-    //Query like search email
-    const query = {};
+    //Query like search email + chỉ trả về patient còn đang active
+    const query = { 'patient_status.isActive': true };
     if (filter && filter.email) {
       query.email = { $regex: filter.email, $options: 'i' };
     }
@@ -44,18 +44,33 @@ class PatientService {
   }
 
   async findAllNoPaginate() {
-    return Patient.find({}, 'email phone gender dob');
+    return Patient.find(
+      {
+        'patient_status.isActive': true
+      }, 
+      'email phone gender dob'
+    );
   }
 
   async findById(id) {
-    return Patient.findById(id).populate({
+    return Patient.findById(
+      { 
+        _id: id, 
+        'patient_status.isActive': true 
+      }
+    ).populate({
       path: 'physician',
       model: physician,
     });
   }
 
   async findByPhysician(physicianId) {
-    return Patient.find({ physician: physicianId }).populate('physician');
+    return Patient.find(
+      { 
+        physician: physicianId,
+        'patient_status.isActive': true
+      }
+    ).populate('physician');
   }
 
   async create(data) {
@@ -63,7 +78,8 @@ class PatientService {
 
     const patient = new Patient({
       ...data,
-      physician: data.physicianId
+      physician: data.physicianId,
+      patient_status: { isActive: true }
     });
     await patient.save();
     return patient.populate('physician');
@@ -86,12 +102,21 @@ class PatientService {
   }
 
   async delete(id) {
-    const result = await Patient.findByIdAndDelete(id);
-    return !!result;
+    const updated = await Patient.findByIdAndUpdate(
+      id,
+      { $set: { 'patient_status.isActive': false } },
+      { new: true }
+    );
+    return !!updated;
   }
 
   async findBasicById(id) {
-    return Patient.findById(id, 'email phone gender dob');
+    return Patient.findById(
+      { 
+      _id: id, 
+      'patient_status.isActive': true 
+      }, 'email phone gender dob'
+    );
   }
 }
 
