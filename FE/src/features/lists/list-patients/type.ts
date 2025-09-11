@@ -5,7 +5,9 @@ export type TColumnsListPatients = {
   phone: string;
   gender: GENDER;
   dob: string;
-  physician: string;
+  physician: {
+    id: number
+  };
   addressInfo: {
     address: string;
     city: string;

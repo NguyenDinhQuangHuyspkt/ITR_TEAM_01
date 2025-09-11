@@ -3,9 +3,10 @@ import { Table } from "antd";
 import { columns } from "./columns";
 import "./style.scss";
 import type { TApiResult } from "../../../services/types";
-import { ListPatientsApi } from "../../../services/apis/patients/list-patients.svc";
-import type { IPatient } from "../../../services/apis/patients/type";
+import { ListPatientsApi } from "../../../services/apis/patients/list/list-patients.svc";
+import type { IPatient } from "../../../services/apis/patients/type-common";
 import { useApolloClient } from "@apollo/client/react";
+import ModalCreatePatient from "../../modals/modal-create-patient";
 
 const ListPatients = () => {
   const client = useApolloClient();
@@ -18,6 +19,7 @@ const ListPatients = () => {
     const observer = {
       update: (result: TApiResult<IPatient[]>) => {
         setLoading(result.status === "loading");
+        console.log("result", result);
         if (result.status === "success" && result.data) {
           setData((result?.data || []).filter((item): item is IPatient => item !== undefined));
         }
@@ -25,9 +27,8 @@ const ListPatients = () => {
     };
 
     ClsListPatients.attach(observer);
-    ClsListPatients.execute({page: 1, limit:10}).catch(() => {});
+    ClsListPatients.execute({ pagination: { page: 1, limit: 10 } }).catch(() => {});
 
-    // Cleanup
     return () => {
       ClsListPatients.detach(observer);
     };
@@ -37,11 +38,17 @@ const ListPatients = () => {
 
   return (
     <section className="list-patients">
-      <h2 className="">List of Patients</h2>
+      <section className="list-patients-header">
+
+        <h2>List of Patients</h2>
+            
+        <ModalCreatePatient />
+
+      </section>
 
       <Table
         className="ant-table-cell"
-        dataSource={data}
+        dataSource={data ? data : []}
         columns={columns}
         loading={loading}
         rowKey="id"

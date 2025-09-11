@@ -48,6 +48,7 @@ export abstract class GraphqlCaller<
 
     try {
       const resp = await this.client.query<TRawResponse>({ query: this.query, variables });
+
       if (resp.data === undefined) {
         this.result = { status: "error" };
         this.notify();
