@@ -33,6 +33,8 @@ const ListPatients = () => {
     };
   }, [client]);
 
+  console.log("data", data);
+
   return (
     <section className="list-patients">
       <h2 className="">List of Patients</h2>

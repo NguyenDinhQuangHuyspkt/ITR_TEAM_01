@@ -17,7 +17,7 @@ export class ListPatientsApi extends GraphqlCaller<
     super(
       client,
       LIST_PATIENTS_QUERY,
-      (raw) => raw.data 
+      (raw) => raw.data?.patients_list?.patients
     );
   }
 }

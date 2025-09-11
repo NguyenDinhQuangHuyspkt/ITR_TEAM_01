@@ -5,7 +5,7 @@ export interface IPatient {
   phone: string;
   gender: GENDER;
   dob: string;
-  physician: number;
+  physician: string;
   addressInfo: {
     address: string;
     city: string;
@@ -15,5 +15,9 @@ export interface IPatient {
 }
 
 export interface IListPatientsResponse {
-  data: IPatient[];
+  data: {
+    patients_list: {
+      patients: IPatient[];
+    }
+  }
 }

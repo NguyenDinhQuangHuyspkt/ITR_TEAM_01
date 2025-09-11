@@ -14,7 +14,7 @@ const patientTypeDefs = gql`
     phone: String!
     gender: Gender!
     dob: String!
-    physician: Physician!
+    physician: Physician
     addressInfo: Address!
     createdAt: Date!
     updatedAt: Date!
