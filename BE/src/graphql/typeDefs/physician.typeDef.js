@@ -2,14 +2,14 @@ const { gql } = require('apollo-server-express');
 
 const physicianTypeDefs = gql`
   type Physician {
-    id: ID!
-    email: String!
-    title: String!
-    phone: String!
-    gender: Gender!
-    dob: String!
-    createdAt: Date!
-    updatedAt: Date!
+    id: ID
+    email: String
+    title: String
+    phone: String
+    gender: Gender
+    dob: String
+    createdAt: Date
+    updatedAt: Date
   }
 
   input CreatePhysicianInput {

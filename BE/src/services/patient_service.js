@@ -1,7 +1,7 @@
 const Patient = require('../models/patient_model');
 const { PAGINATION } = require('../config/constant');
 const validatePatientInput = require('../middleware/validate_patient');
-// const physician = require('../models/physician_model');
+const physician = require('../models/physician_model');
 class PatientService {
   async findAll(paginationInput = {}, filter = {}) {
     const page = paginationInput.page || PAGINATION.DEFAULT_PAGE;
@@ -20,7 +20,7 @@ class PatientService {
     const patients = await Patient.find(query)
       .populate({
         path: 'physician',
-        model: 'Physician',
+        model: physician,
         select: "id"
       })
       .skip(skip)
@@ -48,7 +48,10 @@ class PatientService {
   }
 
   async findById(id) {
-    return Patient.findById(id).populate('physician');
+    return Patient.findById(id).populate({
+      path: 'physician',
+      model: physician,
+    });
   }
 
   async findByPhysician(physicianId) {
@@ -56,7 +59,8 @@ class PatientService {
   }
 
   async create(data) {
-    validatePatientInput(data);
+    await validatePatientInput(data);
+
     const patient = new Patient({
       ...data,
       physician: data.physicianId
@@ -66,7 +70,8 @@ class PatientService {
   }
 
   async update(id, data) {
-    validatePatientInput(data);
+    await validatePatientInput(data);
+    
     const updateData = { ...data };
     if (data.physicianId) {
       updateData.physician = data.physicianId;

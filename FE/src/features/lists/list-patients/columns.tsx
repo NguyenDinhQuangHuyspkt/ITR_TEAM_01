@@ -1,5 +1,5 @@
 import type { ColumnsType } from "antd/es/table";
-import type { TColumnsListPatients } from "./type";
+import type { IPatient } from "../../../services/apis/patients/type-common";
 import { Button } from "antd";
 import "./style.scss"
 
@@ -13,7 +13,7 @@ const CellAction = () => {
   )
 }
 
-export const columns : ColumnsType<TColumnsListPatients> = [
+export const columns : ColumnsType<IPatient> = [
   {
     title: 'Email',
     dataIndex: 'email',
@@ -38,7 +38,7 @@ export const columns : ColumnsType<TColumnsListPatients> = [
     title: 'Physician',
     dataIndex: 'physician',
     key: 'physician',
-    render: (physician) => physician.id
+    render: (physician) => physician?.id
   },
   {
     title: 'Action',
