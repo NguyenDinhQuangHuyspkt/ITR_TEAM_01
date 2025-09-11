@@ -9,12 +9,6 @@ const ModalCreatePatient = () => {
     setOpen(true);
   };
 
-  // const handleOk = () => {
-  //   setTimeout(() => {
-  //     setOpen(false);
-  //   }, 3000);
-  // };
-
   const handleCancel = () => {
     setOpen(false);
   };

@@ -10,7 +10,7 @@ interface IListPatientsVariables {
     limit: number;
   };
   filter?: {
-    email: String;
+    email: string;
   }
 }
 
