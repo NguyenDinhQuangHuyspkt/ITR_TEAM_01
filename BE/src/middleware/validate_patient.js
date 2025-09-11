@@ -1,4 +1,4 @@
-function validatePatientInput(data) {
+async function validatePatientInput(data) {
   // Email
   if (data.email !== undefined) {
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;

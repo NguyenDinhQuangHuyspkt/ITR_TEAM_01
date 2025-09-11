@@ -5,16 +5,19 @@ import type { IPatient } from "../type-common";
 import type { IListPatientsResponse } from "./list-patients.type";
 
 interface IListPatientsVariables {
-  pagination: {
+  pagination?: {
     page: number;
     limit: number;
   };
+  filter?: {
+    email: String;
+  }
 }
 
 export class ListPatientsApi extends GraphqlCaller<
   IPatient[], // Parsed data type
   IListPatientsVariables, // Input variables type
-  IListPatientsResponse // Raw response type
+  IListPatientsResponse // Raw response type 
 > {
   constructor(client: ApolloClient) {
     super(

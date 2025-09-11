@@ -9,24 +9,24 @@ const patientTypeDefs = gql`
   }
 
   type Patient {
-    id: ID!
-    email: String!
-    phone: String!
-    gender: Gender!
-    dob: String!
+    id: ID
+    email: String
+    phone: String
+    gender: Gender
+    dob: String
     physician: Physician
-    addressInfo: Address!
-    createdAt: Date!
-    updatedAt: Date!
+    addressInfo: Address
+    createdAt: Date
+    updatedAt: Date
   }
 
   # Lấy thông tin cơ bản của patient -> hiển thị table giao diện default
   type PatientBasic {
-    id: ID!
-    email: String!
-    phone: String!
-    gender: Gender!
-    dob: String!
+    id: ID
+    email: String
+    phone: String
+    gender: Gender
+    dob: String
   }
 
   type PaginatedPatients {

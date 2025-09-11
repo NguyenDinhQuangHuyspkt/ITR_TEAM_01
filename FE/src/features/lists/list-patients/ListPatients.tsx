@@ -7,11 +7,15 @@ import { ListPatientsApi } from "../../../services/apis/patients/list/list-patie
 import type { IPatient } from "../../../services/apis/patients/type-common";
 import { useApolloClient } from "@apollo/client/react";
 import ModalCreatePatient from "../../modals/modal-create-patient";
+import ModalPatientDetail from "../../modals/modal-patient-detail";
 
 const ListPatients = () => {
   const client = useApolloClient();
   const [data, setData] = useState<IPatient[]>([]);
   const [loading, setLoading] = useState(false);
+  
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     const ClsListPatients = new ListPatientsApi(client);
@@ -52,6 +56,18 @@ const ListPatients = () => {
         columns={columns}
         loading={loading}
         rowKey="id"
+
+        onRow={(record) => ({
+          onClick: () => {
+            setSelectedId(record.id);
+            setOpenDetail(true);
+          },
+        })}
+      />
+      <ModalPatientDetail
+        open={openDetail}
+        patientId={selectedId}
+        onClose={() => setOpenDetail(false)}
       />
     </section>
   );
