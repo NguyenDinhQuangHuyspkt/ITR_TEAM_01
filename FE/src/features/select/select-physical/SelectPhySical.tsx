@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ListPhysiciansApi } from "../../../services/apis/physician/list/list-physician.svc";
 import type { TApiResult } from "../../../services/types";
-import type { IPhysician } from "../../../services/apis/physician/type";
 import { useApolloClient } from "@apollo/client/react";
 import { Select } from "antd";
+import type { IPhysician } from "../../../services/apis/physician/type-common";
 
 interface ISelectPhySicalProps {
   value?: string;
