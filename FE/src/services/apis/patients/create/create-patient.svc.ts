@@ -1,14 +1,14 @@
 import { ApolloClient } from "@apollo/client";
-import { GraphqlCaller } from "../../api-base.svc";
 
 import { CREATE_PATIENT_MUTATION } from "./create-patient.query";
 import type { IPatient } from "../type-common";
-import type { ICreatePatientResponse } from "./create-patient.type";
+import type { ICreatePatientInput, ICreatePatientResponse } from "./create-patient.type";
+import { GraphqlMutationCaller } from "../../api-base-mutation.svc";
 
-export class CreatePatientApi extends GraphqlCaller<
-  IPatient, // Parsed data type
-  undefined, // Input variables type
-  ICreatePatientResponse // Raw response type
+export class CreatePatientApi extends GraphqlMutationCaller<
+  IPatient,
+  { input: ICreatePatientInput },
+  ICreatePatientResponse
 > {
   constructor(client: ApolloClient) {
     super(

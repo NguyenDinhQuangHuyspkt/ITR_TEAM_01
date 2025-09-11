@@ -1,0 +1,16 @@
+.form-items {
+  display: flex;
+  font-family: 'Quicksand', sans-serif;
+  gap: 16px;
+}
+
+.ant-form-item-row {
+  width: 100%;
+  display: flex;
+  font-family: 'Quicksand', sans-serif;
+  gap: 30px;
+}
+
+.ant-form-item-label {
+  overflow: visible;
+}

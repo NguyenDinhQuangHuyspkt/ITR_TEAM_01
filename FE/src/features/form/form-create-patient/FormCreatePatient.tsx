@@ -2,15 +2,41 @@ import { Button, DatePicker, Form, Input } from "antd";
 import { genLabelsFormCreatePatient } from "./utils";
 import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
+import "./style.scss";
+import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
 
 const FormCreatePatient = () => {
+   const { createPatient } = useCreatePatient();
+  
   const labels = genLabelsFormCreatePatient();
 
   const [form] = Form.useForm();
 
   const onSubmitForm = () => {
-    console.log('submit form', form.getFieldsValue());
-  }
+    createPatient(
+      {
+        email: form.getFieldValue('email'),
+        phone: form.getFieldValue('phone'),
+        gender: form.getFieldValue('gender'),
+        physicianId: form.getFieldValue('physicianId'),
+        dob: form.getFieldValue('dob')?.toISOString(),
+        addressInfo: {
+          address: form.getFieldValue('address'),
+          city: form.getFieldValue('city'),
+          state: form.getFieldValue('state'),
+          country: form.getFieldValue('country'),
+        }
+      },
+      (result) => {
+        if (result.status === "success") {
+          console.log("Patient created successfully:", result.data);
+          form.resetFields();
+        } else if (result.status === "error") {
+          console.error("Error creating patient:", result?.message);
+        }
+      }
+    );
+  };
 
   return (
       <Form
@@ -20,28 +46,76 @@ const FormCreatePatient = () => {
         layout="horizontal"
         style={{ maxWidth: 600 }}
       >
-        <div>
-          <label>{labels.email}</label>
-        
-          <Form.Item name ="email">
-            <Input />
-          </Form.Item>
-        </div>
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.email} 
+          name ="email"
+        >
+          <Input />
+        </Form.Item>
 
-        <Form.Item label={labels.phone} name="phone">
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.phone} 
+          name="phone"
+        >
           <Input/>
         </Form.Item>
 
-        <Form.Item label={labels.gender} name ='gender'>
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.gender} 
+          name ='gender'
+        >
           <SelectGender value={form.getFieldValue('gender')}/>
         </Form.Item>
 
-        <Form.Item label = {labels.physician} name = 'physicianId'>
+        <Form.Item 
+          className="ant-form-item-label" 
+          label = {labels.physician} 
+          name = 'physicianId'
+        >
           <SelectPhySical />
         </Form.Item>
 
-        <Form.Item label="DatePicker" name='dob'>
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.dob} 
+          name='dob'
+        >
           <DatePicker />
+        </Form.Item>
+
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.address} 
+          name ="address"
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.city} 
+          name ="city"
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item 
+          className="ant-form-item-label" 
+          label={labels.state} 
+          name ="state"
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item 
+          className="ant-form-item-label"
+          label={labels.country} 
+          name ="country" 
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item label={null}>

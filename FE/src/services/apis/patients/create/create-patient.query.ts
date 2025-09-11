@@ -16,8 +16,6 @@ export const CREATE_PATIENT_MUTATION = gql`
         state
         country
       }
-      createdAt
-      updatedAt
     }
 }
 `;

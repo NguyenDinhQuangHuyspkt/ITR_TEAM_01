@@ -9,8 +9,18 @@ const ModalCreatePatient = () => {
     setOpen(true);
   };
 
+  // const handleOk = () => {
+  //   setTimeout(() => {
+  //     setOpen(false);
+  //   }, 3000);
+  // };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   return (
-    <section>
+    <>
       <Button type="primary" onClick={showModal}>
         Create Patient
       </Button>
@@ -18,11 +28,13 @@ const ModalCreatePatient = () => {
       <Modal
         open={open}
         title="Create a new patient"
+        // onOk={handleOk}
+        onCancel={handleCancel}
         footer={null}
       >
         <FormCreatePatient/>
       </Modal>
-    </section>
+    </>
   );
 }
 
