@@ -109,15 +109,6 @@ class PatientService {
     );
     return !!updated;
   }
-
-  async findBasicById(id) {
-    return Patient.findById(
-      { 
-      _id: id, 
-      'patient_status.isActive': true 
-      }, 'email phone gender dob'
-    );
-  }
 }
 
 module.exports = new PatientService();

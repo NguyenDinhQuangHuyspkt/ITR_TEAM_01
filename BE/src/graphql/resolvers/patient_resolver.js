@@ -11,16 +11,6 @@ const patientResolvers = {
     patientsByPhysician: async (_, { physicianId }) => {
       return patientService.findByPhysician(physicianId);
     },
-    patientBasic: async (_, { id }) => {
-      const patient = await patientService.findBasicById(id);
-      if (!patient) return null;
-      const { _id, email, phone, gender, dob } = patient;
-      return { id: _id, email, phone, gender, dob };
-    },
-    patientsBasic: async () => {
-      const patients = await patientService.findAllNoPaginate();
-      return patients.map(({ _id, email, phone, gender, dob }) => ({ id: _id, email, phone, gender, dob }));
-    }
   },
   Mutation: {
     createPatient: async (_, { input }) => {

@@ -13,14 +13,6 @@ async function validatePatientInput(data) {
       throw new Error('Phone phải là 10 chữ số và không chứa ký tự chữ!');
     }
   }
-  // DOB
-  // if (data.dob !== undefined) {
-  //   const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
-  //   if (!dobRegex.test(data.dob)) {
-  //     throw new Error('Ngày sinh (dob) phải đúng định dạng YYYY-MM-DD!');
-  //   }
-  // }
-  // Có thể kiểm tra thêm các trường khác nếu muốn
 }
 
 module.exports = validatePatientInput;

@@ -30,27 +30,8 @@
   font-family: "Quicksand", sans-serif;
 }
 
-.list-patients {
-  // Target the pagination container
-  .ant-pagination.ant-table-pagination {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    
-    // Text hiển thị bên trái
-    .ant-pagination-total-text {
-      flex: 1 !important;
-      order: -1 !important;
-      text-align: left !important;
-    }
-    
-    // Các controls pagination bên phải
-    .ant-pagination-prev,
-    .ant-pagination-item,
-    .ant-pagination-next,
-    .ant-pagination-options {
-      order: 1 !important;
-    }
+.custom-table-pagination {
+  .ant-pagination-total-text {
+    margin-right: auto;
   }
-}
+ }

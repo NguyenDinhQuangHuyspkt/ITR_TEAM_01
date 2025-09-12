@@ -24,13 +24,10 @@ async function startServer() {
   const apolloServer = new ApolloServer({
     schema,
     context: ({ req }) => {
-        // Có thể thêm user authentication ở đây
         return { req };
     },
     formatError: (err) => ({ // Format lỗi cho đẹp
       message: err.message,
-      // code: err.extensions?.code || 'INTERNAL_ERROR',
-      // timestamp: new Date().toISOString()
     })
   });
 

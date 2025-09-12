@@ -12,8 +12,8 @@ const commonTypeDefs = gql`
     currentPage: Int!
     totalPages: Int!
     totalItems: Int!
-    hasNextPage: Boolean!
-    hasPrevPage: Boolean!
+    hasNextPage: Boolean
+    hasPrevPage: Boolean
   }
 
   input PaginationInput {

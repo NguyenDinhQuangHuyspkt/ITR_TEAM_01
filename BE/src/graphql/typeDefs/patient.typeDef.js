@@ -20,15 +20,6 @@ const patientTypeDefs = gql`
     updatedAt: Date
   }
 
-  # Lấy thông tin cơ bản của patient -> hiển thị table giao diện default
-  type PatientBasic {
-    id: ID
-    email: String
-    phone: String
-    gender: Gender
-    dob: String
-  }
-
   type PaginatedPatients {
     patients: [Patient!]!
     pagination: PaginationInfo!
@@ -68,9 +59,6 @@ const patientTypeDefs = gql`
     patients_list(pagination: PaginationInput, filter: PatientFilterSearch): PaginatedPatients!
     patient(id: ID!): Patient
     patientsByPhysician(physicianId: ID!): [Patient!]!
-    # Query chỉ lấy các trường cơ bản
-    patientBasic(id: ID!): PatientBasic
-    patientsBasic: [PatientBasic!]!
   }
 
   type Mutation {

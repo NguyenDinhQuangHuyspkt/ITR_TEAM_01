@@ -58,7 +58,6 @@ const patientSchema = new mongoose.Schema({
   dob: {
     type: String,
     required: true,
-    // match: /^\d{4}-\d{2}-\d{2}$/
   },
   physician: {
     type: mongoose.Schema.Types.ObjectId,
