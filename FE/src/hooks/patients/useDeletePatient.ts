@@ -27,6 +27,7 @@ export function useDeletePatient() {
         .then(()=> toast.success("Patient deleted successfully"))
         .catch((error) => {
           onResult({ status: "error", message: error.message });
+          toast.error("Delete patient failed");
         })
         .finally(() => {
           apiRef.current!.detach(observer);

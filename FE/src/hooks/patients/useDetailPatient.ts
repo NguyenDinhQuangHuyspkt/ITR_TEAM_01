@@ -4,6 +4,7 @@ import type { TApiResult } from "../../services/types";
 import { DetailPatientApi } from "../../services/apis/patients/detail/detail-patient.svc";
 import { useCallback, useEffect, useRef } from "react";
 import type { IPatientDetailInput } from "../../services/apis/patients/detail/detail-patient.type";
+import { toast } from "react-toastify";
 
 export function useDetailPatient() {
   const client = useApolloClient();
@@ -29,6 +30,7 @@ export function useDetailPatient() {
       apiRef.current!.execute(input)
         .catch((error) => {
           onResult({ status: "error", message: error.message });
+          toast.error("Fetch patient detail failed");
         })
         .finally(() => {
           apiRef.current!.detach(observer);

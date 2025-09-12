@@ -27,6 +27,7 @@ export function useEditPatient() {
         .then(() => toast.success("Patient updated successfully"))
         .catch((error) => {
           onResult({ status: "error", message: error.message });
+          toast.error("Update patient failed");
         })
         .finally(() => {
           apiRef.current!.detach(observer);
