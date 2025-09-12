@@ -16,7 +16,10 @@ export const LIST_PATIENTS_QUERY = gql`
       pagination {
         currentPage
         totalPages
+        totalItems
+        hasNextPage
+        hasPrevPage
       }
     }
-}
+  }
 `;

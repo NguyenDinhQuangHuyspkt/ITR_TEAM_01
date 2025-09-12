@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useApolloClient } from "@apollo/client/react";
-import { ListPatientsApi } from "../../services/apis/patients/list/list-patients.svc";
+import { ListPatientsApi, type IPatientsListParsedData } from "../../services/apis/patients/list/list-patients.svc";
 import { useApiResult } from "../useApiResult";
-import type { IPatient } from "../../services/apis/patients/type-common";
+// import type { IPatient } from "../../services/apis/patients/type-common";
 import type { IListPatientsResponse } from "../../services/apis/patients/list/list-patients.type";
 
 export function useListPatients(pagination: { page: number; limit: number }) {
@@ -15,7 +15,7 @@ export function useListPatients(pagination: { page: number; limit: number }) {
   const api = apiRef.current;
 
   const result = useApiResult<
-    IPatient[],
+    IPatientsListParsedData,
     { pagination: { page: number; limit: number } },
     IListPatientsResponse
   >(api);
@@ -25,7 +25,7 @@ export function useListPatients(pagination: { page: number; limit: number }) {
   }, [api, pagination]);
 
   const loading = result.status === "loading";
-  const data = result.status === "success" ? result.data : [];
+  const data = result.status === "success" ? result.data : null;
   const error = result.status === "error" ? result.message : null;
 
   return { data, loading, error };

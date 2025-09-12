@@ -10,14 +10,17 @@ import { useListPatients } from "../../../hooks/patients/useAllPatients";
 const ListPatients = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(PAGINATION.DEFAULT_PAGE);
+  const [pageSize, setPageSize] = useState(PAGINATION.DEFAULT_LIMIT);
+
   const pagination = useMemo(
-  () => ({
-    page: PAGINATION.DEFAULT_PAGE,
-    limit: PAGINATION.DEFAULT_LIMIT,
-    ...(searchTerm ? { filter: { email: searchTerm } } : {}),
-  }),
-  [searchTerm]
-);
+    () => ({
+      page: currentPage,
+      limit: pageSize,
+      ...(searchTerm ? { filter: { email: searchTerm } } : {}),
+    }),
+    [searchTerm, currentPage, pageSize]
+  );
 
   const { data, loading } = useListPatients(pagination);
 
@@ -25,11 +28,25 @@ const ListPatients = () => {
     setSearchTerm(values.search);
   };
 
+  //phần phân trang
+
+  const handleTableChange = (page: number, nextPageSize?: number) => {
+    setCurrentPage(page);
+    if (nextPageSize && nextPageSize !== pageSize) {
+      setPageSize(nextPageSize);
+    }
+  };
+
+  const handlePageSizeChange = (_page: number, nextPageSize: number) => {
+    setPageSize(nextPageSize);
+    setCurrentPage(1);
+  };
+
   return (
     <section className="list-patients">
       <section className="list-patients-header">
         <h2>List of Patients</h2>
-        
+
         <ModalCreatePatient />
       </section>
 
@@ -37,10 +54,24 @@ const ListPatients = () => {
 
       <Table
         className="ant-table-cell"
-        dataSource={data ?? []}
+        dataSource={data?.patients ?? []}
         columns={columns}
         loading={loading}
         rowKey="id"
+
+        pagination={{
+          className: 'custom-table-pagination',
+          current: currentPage,
+          total: data?.pagination?.totalItems,
+          pageSize: pageSize,
+          onChange: handleTableChange,
+          showSizeChanger: true, // Bật chọn số items per page
+          showTotal: (total, range) => 
+            `${range[0]}-${range[1]} of ${total} rows`,
+          onShowSizeChange: handlePageSizeChange, // Handle khi đổi page size
+          pageSizeOptions: ['3' ,'10', '20', '50', '100'], // Các option cho page size
+          }
+        }
       />
     </section>
   );

@@ -14,8 +14,19 @@ interface IListPatientsVariables {
   }
 }
 
+export interface IPatientsListParsedData {
+  patients: IPatient[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  }
+}
+
 export class ListPatientsApi extends GraphqlCaller<
-  IPatient[], // Parsed data type
+  IPatientsListParsedData, // Parsed data type
   IListPatientsVariables, // Input variables type
   IListPatientsResponse // Raw response type 
 > {
@@ -23,7 +34,7 @@ export class ListPatientsApi extends GraphqlCaller<
     super(
       client,
       LIST_PATIENTS_QUERY,
-      (raw) => raw.patients_list.patients
+      (raw) => raw.patients_list
     );
   }
 }

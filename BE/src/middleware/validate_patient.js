@@ -14,12 +14,12 @@ async function validatePatientInput(data) {
     }
   }
   // DOB
-  if (data.dob !== undefined) {
-    const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dobRegex.test(data.dob)) {
-      throw new Error('Ngày sinh (dob) phải đúng định dạng YYYY-MM-DD!');
-    }
-  }
+  // if (data.dob !== undefined) {
+  //   const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
+  //   if (!dobRegex.test(data.dob)) {
+  //     throw new Error('Ngày sinh (dob) phải đúng định dạng YYYY-MM-DD!');
+  //   }
+  // }
   // Có thể kiểm tra thêm các trường khác nếu muốn
 }
 
