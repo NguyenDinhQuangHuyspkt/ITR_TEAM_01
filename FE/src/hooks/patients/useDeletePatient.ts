@@ -4,6 +4,7 @@ import type { TApiResult } from "../../services/types";
 import type { IPatient } from "../../services/apis/patients/type-common";
 import { DeletePatientApi } from "../../services/apis/patients/delete/delete-patient.svc";
 import type { IDeletePatientInput } from "../../services/apis/patients/delete/delete-patient.type";
+import { toast } from "react-toastify";
 
 export function useDeletePatient() {
   const client = useApolloClient();
@@ -23,8 +24,10 @@ export function useDeletePatient() {
 
       apiRef.current!.attach(observer);
       apiRef.current!.execute(input)
+        .then(()=> toast.success("Patient deleted successfully"))
         .catch((error) => {
           onResult({ status: "error", message: error.message });
+          toast.error("Delete patient failed");
         })
         .finally(() => {
           apiRef.current!.detach(observer);

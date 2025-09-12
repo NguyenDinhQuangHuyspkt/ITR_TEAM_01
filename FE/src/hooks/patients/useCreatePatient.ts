@@ -4,6 +4,7 @@ import { CreatePatientApi } from "../../services/apis/patients/create/create-pat
 import type { ICreatePatientInput } from "../../services/apis/patients/create/create-patient.type";
 import type { IPatient } from "../../services/apis/patients/type-common";
 import type { TApiResult } from "../../services/types";
+import { toast } from "react-toastify";
 
 export function useCreatePatient() {
   const client = useApolloClient();
@@ -28,9 +29,11 @@ export function useCreatePatient() {
       api.attach(observer);
       try {
         const res = await api.execute({ input });
+        toast.success("Create patient successfully");
         return res;
       } catch (err) {
         onResult?.({ status: "error", message: (err as Error).message });
+        toast.error("Create patient failed");
         throw err;
       } finally {
         api.detach(observer);

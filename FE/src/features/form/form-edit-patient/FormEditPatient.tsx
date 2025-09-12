@@ -72,9 +72,8 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess})
     <Form
       form={form}
       labelCol={{ span: 5 }}
-      wrapperCol={{ span: 14 }}
       layout="horizontal"
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 'auto' }}
       onFinish={onSubmitForm}
     >
       <Form.Item className="ant-form-item-label" label={labels.email} name="email">
@@ -115,7 +114,7 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess})
 
       <Form.Item label={null}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Edit
         </Button>
       </Form.Item>
     </Form>
