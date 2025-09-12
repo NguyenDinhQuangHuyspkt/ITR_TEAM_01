@@ -2,17 +2,7 @@ import { ApolloClient } from "@apollo/client";
 import { GraphqlCaller } from "../../api-base-query.svc";
 import { LIST_PATIENTS_QUERY } from "./list-patients.query";
 import type { IPatient } from "../type-common";
-import type { IListPatientsResponse } from "./list-patients.type";
-
-interface IListPatientsVariables {
-  pagination?: {
-    page: number;
-    limit: number;
-  };
-  filter?: {
-    email: string;
-  }
-}
+import type { IListPatientsResponse, IListPatientsVariables } from "./list-patients.type";
 
 export interface IPatientsListParsedData {
   patients: IPatient[];

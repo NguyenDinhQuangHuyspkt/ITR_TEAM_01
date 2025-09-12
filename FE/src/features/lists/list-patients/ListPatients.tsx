@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { columns } from "./columns";
+import { renderColumns } from "./columns";
 import "./style.scss";
 import ModalCreatePatient from "../../modals/modal-create-patient";
 import SearchDebounce from "../../../components/search-debounce";
@@ -15,14 +15,24 @@ const ListPatients = () => {
 
   const pagination = useMemo(
     () => ({
-      page: currentPage,
-      limit: pageSize,
-      ...(searchTerm ? { filter: { email: searchTerm } } : {}),
+      pagination:{
+        page: PAGINATION.DEFAULT_PAGE,
+        limit: PAGINATION.DEFAULT_LIMIT,
+      },
+      filter: searchTerm
+        ? {
+            email: searchTerm,
+          }
+        : undefined,
     }),
-    [searchTerm, currentPage, pageSize]
+    [searchTerm]
   );
 
-  const { data, loading } = useListPatients(pagination);
+  const { data, loading, onFetchListPatients } = useListPatients(pagination);
+
+  const columns = useMemo(() => {
+    return renderColumns(onFetchListPatients);
+  }, [onFetchListPatients]);
 
   const onSearch = (values: { search: string }) => {
     setSearchTerm(values.search);
@@ -46,8 +56,8 @@ const ListPatients = () => {
     <section className="list-patients">
       <section className="list-patients-header">
         <h2>List of Patients</h2>
-
-        <ModalCreatePatient />
+        
+        <ModalCreatePatient onCallback={onFetchListPatients}/>
       </section>
 
       <SearchDebounce placeholder="Input email" onSubmit={onSearch} />

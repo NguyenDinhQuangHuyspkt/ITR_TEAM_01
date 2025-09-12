@@ -1,29 +1,36 @@
-import { Select } from "antd"
+import { Select, type SelectProps } from "antd"
 import { GENDER } from "../../../app/common-type";
+import type { DefaultOptionType } from "antd/es/select";
 
-interface ISelectGenderProps {
+type TSelectGenderProps = SelectProps<string> & {
   value?: string;
   onChange?: (value: string) => void;
 }
 
-const SelectGender = ({value, onChange}: ISelectGenderProps) => {
-  const onHandleChange = (value: string) => {
-    console.log(`selected ${value}`);
+const SelectGender = ({
+  value, 
+  onChange,
+  ...props
+}: TSelectGenderProps) => {
 
+  const onHandleChange = (
+      _value: string, 
+      option?: DefaultOptionType | DefaultOptionType[]
+    ) => {
     if (onChange) {
-      onChange(value);
+      onChange(option && !Array.isArray(option) ? option.value as string : '');
     }
   }
 
   return (
     <Select
       value={value}
-      style={{ width: 120 }}
       onChange={onHandleChange}
       options={[
         { value: GENDER.male, label: 'Male' },
         { value: GENDER.female, label: 'Female' },
       ]}
+      {...props}
     />
   )
 }

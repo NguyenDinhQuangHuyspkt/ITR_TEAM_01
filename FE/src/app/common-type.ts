@@ -5,6 +5,6 @@ export enum GENDER  {
 
 export const PAGINATION = {
     DEFAULT_PAGE: 1,
-    DEFAULT_LIMIT: 3,
+    DEFAULT_LIMIT: 5,
     MAX_LIMIT: 100
 };

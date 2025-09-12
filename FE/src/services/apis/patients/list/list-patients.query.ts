@@ -12,6 +12,12 @@ export const LIST_PATIENTS_QUERY = gql`
         physician {
           id
         }
+        addressInfo {
+          address
+          city
+          state
+          country
+        }
       }
       pagination {
         currentPage

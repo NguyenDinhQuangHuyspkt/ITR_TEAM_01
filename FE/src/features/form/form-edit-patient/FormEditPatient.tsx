@@ -9,15 +9,17 @@ import type { IPatient } from "../../../services/apis/patients/type-common";
 
 interface IFormEditPatientProps {
   patient: IPatient;
+  onSuccess?: () => void;
 }
 
-const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient }) => {
+const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess}) => {
   const { editPatient } = useEditPatient();
   const labels = genLabelsFormEditPatient();
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (!patient) return;
+
     form.setFieldsValue({
       email: patient.email,
       phone: patient.phone,
@@ -54,13 +56,14 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient }) => {
       editPatient(payload, (result) => {
         if (result.status === "success") {
           console.log("Patient updated successfully:", result.data);
-          // optionally reset or keep values
+          if (onSuccess) {
+            onSuccess();
+          }
         } else if (result.status === "error") {
           console.error("Error updating patient:", result?.message);
         }
       });
     } catch (err) {
-      // validation failed
       console.warn("Validation failed:", err);
     }
   };
@@ -68,7 +71,7 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient }) => {
   return (
     <Form
       form={form}
-      labelCol={{ span: 4 }}
+      labelCol={{ span: 5 }}
       wrapperCol={{ span: 14 }}
       layout="horizontal"
       style={{ maxWidth: 600 }}

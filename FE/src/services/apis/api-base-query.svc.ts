@@ -50,32 +50,32 @@ export abstract class GraphqlCaller<
     return this.result;
   }
 
-  public subscribe(callback: () => void): () => void {
+  subscribe(callback: () => void): () => void {
     const observer: IObserver<TApiResult<TData>> = {
       update: () => callback(),
     };
     this.attach(observer);
-    return () => {
-      this.detach(observer);
-    };
+    return () => this.detach(observer);
+  }
+
+  protected setResult(result: TApiResult<TData>) {
+    this.result = result;
+    this.notify();
   }
 
   public async execute(variables: TVariables) {
-    this.result = { status: "loading" };
-    this.notify();
+    this.setResult({ status: "loading" });
 
     try {
-      const resp = await this.client.query<TRawResponse>({ query: this.query, variables });
+      const resp = await this.client.query<TRawResponse>({ query: this.query, variables,fetchPolicy:'network-only' });
 
       if (resp.data === undefined) {
-        this.result = { status: "error" };
-        this.notify();
+        this.setResult({ status: "error", message: "No data returned from GraphQL response" });
         throw new Error("No data returned from GraphQL response");
       }
       const parsed = this.dataParser(resp.data);
 
-      this.result = { status: "success", data: parsed };
-      this.notify();
+      this.setResult({ status: "success", data: parsed });
 
       return parsed;
     } catch (error) {

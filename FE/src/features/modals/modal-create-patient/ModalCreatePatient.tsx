@@ -2,7 +2,13 @@ import { Button, Modal } from "antd";
 import { useState } from "react";
 import FormCreatePatient from "../../form/form-create-patient";
 
-const ModalCreatePatient = () => {
+interface IModalCreatePatientProps {
+  onCallback?: () => void;
+}
+
+const ModalCreatePatient : React.FC<IModalCreatePatientProps> = ({
+  onCallback
+}) => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -25,7 +31,14 @@ const ModalCreatePatient = () => {
         onCancel={handleCancel}
         footer={null}
       >
-        <FormCreatePatient/>
+        <FormCreatePatient 
+          onSuccess={()=>{
+            setOpen(false);
+            if(onCallback) {
+              onCallback();
+            }
+          }}
+        />
       </Modal>
     </>
   );

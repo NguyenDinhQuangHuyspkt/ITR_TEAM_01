@@ -5,9 +5,10 @@ import type { IPatient } from "../../../services/apis/patients/type-common";
 
 interface IModalEditPatientProps {
   patient: IPatient;
+  onCallback?: () => void;
 }
 
-const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient}) => {
+const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient , onCallback }) => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -30,7 +31,16 @@ const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient}) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <FormEditPatient patient ={patient}/>
+        <FormEditPatient 
+          patient ={patient} 
+          onSuccess = {
+            ()=>{
+              setOpen(false);
+              if(onCallback) {
+                onCallback();
+              }
+            }
+        }/>
       </Modal>
     </>
   );

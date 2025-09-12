@@ -5,7 +5,13 @@ import SelectPhySical from "../../select/select-physical";
 import "./style.scss";
 import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
 
-const FormCreatePatient = () => {
+interface IFormCreatePatientProps {
+  onSuccess?: () => void;
+}
+
+const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
+  onSuccess
+}) => {
    const { createPatient } = useCreatePatient();
   
   const labels = genLabelsFormCreatePatient();
@@ -15,6 +21,7 @@ const FormCreatePatient = () => {
   const onSubmitForm = async () => {
     try {
       const values = await form.validateFields();
+      
       const payload = {
         email: values.email,
         phone: values.phone,
@@ -32,6 +39,11 @@ const FormCreatePatient = () => {
       await createPatient(payload, (result) => {
         if (result.status === "success") {
           form.resetFields();
+          if (onSuccess) {
+            console.log('Calling onSuccess callback');
+            onSuccess();
+          }
+          
         } else if (result.status === "error") {
           console.error("Create patient error:", result.message);
         }
@@ -44,7 +56,7 @@ const FormCreatePatient = () => {
   return (
       <Form
         form={form}
-        labelCol={{ span: 4 }}
+        labelCol={{ span: 6 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{ maxWidth: 600 }}
@@ -53,6 +65,15 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.email} 
           name ="email"
+          rules={
+            [
+              { 
+                required: true, 
+                message: 'Please input email!',
+                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ,
+                type: 'string'
+              }
+            ]}
         >
           <Input />
         </Form.Item>
@@ -61,6 +82,16 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.phone} 
           name="phone"
+          rules={
+            [
+              { 
+                required: true, 
+                message: 'Please input phone number!',
+                pattern: /^\d{10}$/,
+                type: 'string',
+                len: 10
+              }
+            ]}
         >
           <Input/>
         </Form.Item>
@@ -69,6 +100,12 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.gender} 
           name ='gender'
+          rules={[
+            { 
+              required: true, 
+              message: 'Please select gender'
+            }
+          ]}
         >
           <SelectGender value={form.getFieldValue('gender')}/>
         </Form.Item>
@@ -77,6 +114,12 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label = {labels.physician} 
           name = 'physicianId'
+          rules={[
+            { 
+              required: true, 
+              message: 'Please select physician'
+            }
+          ]}
         >
           <SelectPhySical />
         </Form.Item>
@@ -85,6 +128,12 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.dob} 
           name='dob'
+          rules={[
+            { 
+              required: true, 
+              message: 'Please select date of birth'
+            }
+          ]}
         >
           <DatePicker />
         </Form.Item>
@@ -93,6 +142,12 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.address} 
           name ="address"
+          rules={[
+            { 
+              required: true, 
+              message: 'Please input address!'
+            }
+          ]}
         >
           <Input />
         </Form.Item>
@@ -101,6 +156,13 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.city} 
           name ="city"
+          rules={[
+            { 
+              required: true, 
+              message: 'Please input city!',
+              type: 'string'
+            }
+          ]}
         >
           <Input />
         </Form.Item>
@@ -109,6 +171,12 @@ const FormCreatePatient = () => {
           className="ant-form-item-label" 
           label={labels.state} 
           name ="state"
+          rules={[
+            { 
+              required: true, 
+              message: 'Please input state!'
+            }
+          ]}
         >
           <Input />
         </Form.Item>
@@ -117,6 +185,13 @@ const FormCreatePatient = () => {
           className="ant-form-item-label"
           label={labels.country} 
           name ="country" 
+          rules={[
+            { 
+              required: true, 
+              message: 'Please input country!',
+              type: 'string'
+            }
+          ]}
         >
           <Input />
         </Form.Item>

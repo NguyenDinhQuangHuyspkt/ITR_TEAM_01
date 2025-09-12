@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export interface IListPatientsVariables {
+export interface IListPhysiciansVariables {
   pagination: {
     page: number;
     limit: number;

@@ -4,9 +4,10 @@ import { useDeletePatient } from "../../../hooks/patients/useDeletePatient";
 
 interface IModalDeletePatientProps {
   id: string;
+  onCallback?: () => void;
 }
 
-const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id}) => {
+const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback}) => {
   const [open, setOpen] = useState(false);
 
   const {deletePatient} = useDeletePatient();
@@ -20,10 +21,12 @@ const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id}) => {
   };
 
   const onConfirmDelete = () => {
-    console.log("Deleting patient with id:", id);
     deletePatient({ deletePatientId: id }, (result) => {
       if (result.status === "success") {
         console.log("Patient deleted successfully");
+        if(onCallback) {
+          onCallback();
+        }
       } else if (result.status === "error") {
         console.error("Error deleting patient:", result.message);
       }

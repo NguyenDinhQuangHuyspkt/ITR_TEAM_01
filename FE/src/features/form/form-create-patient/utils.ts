@@ -3,7 +3,7 @@ export const genLabelsFormCreatePatient = () => {
     email: "Input Email",
     phone: "Input Phone",
     gender: "Select gender",
-    dob: "Select Date of Birth",
+    dob: "Select Dob",
     physician: "Select Physician",
     address: "Input Address",
     state: "Input State",
