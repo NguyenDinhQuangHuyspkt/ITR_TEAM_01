@@ -16,8 +16,8 @@ const ListPatients = () => {
   const pagination = useMemo(
     () => ({
       pagination:{
-        page: PAGINATION.DEFAULT_PAGE,
-        limit: PAGINATION.DEFAULT_LIMIT,
+        page: currentPage,
+        limit: pageSize,
       },
       filter: searchTerm
         ? {
@@ -25,7 +25,7 @@ const ListPatients = () => {
           }
         : undefined,
     }),
-    [searchTerm]
+    [searchTerm, currentPage, pageSize]
   );
 
   const { data, loading, onFetchListPatients } = useListPatients(pagination);

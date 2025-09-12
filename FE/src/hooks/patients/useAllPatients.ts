@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useApolloClient } from "@apollo/client/react";
 import { ListPatientsApi, type IPatientsListParsedData } from "../../services/apis/patients/list/list-patients.svc";
 import { useApiResult } from "../useApiResult";
-// import type { IPatient } from "../../services/apis/patients/type-common";
-import type { IListPatientsResponse } from "../../services/apis/patients/list/list-patients.type";
+import type { IListPatientsResponse, IListPatientsVariables } from "../../services/apis/patients/list/list-patients.type";
 
 export function useListPatients(pagination: IListPatientsVariables) {
   const client = useApolloClient();
@@ -33,8 +32,6 @@ export function useListPatients(pagination: IListPatientsVariables) {
   const loading = result.status === "loading";
   const data = result.status === "success" ? result.data : null;
   const error = result.status === "error" ? result.message : null;
-
-  console.log("List patients result:", result.data);
 
   return { data, loading, error, onFetchListPatients };
 }
