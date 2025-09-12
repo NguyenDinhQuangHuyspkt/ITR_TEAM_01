@@ -38,8 +38,6 @@ const ListPatients = () => {
     setSearchTerm(values.search);
   };
 
-  //phần phân trang
-
   const handleTableChange = (page: number, nextPageSize?: number) => {
     setCurrentPage(page);
     if (nextPageSize && nextPageSize !== pageSize) {
@@ -75,11 +73,11 @@ const ListPatients = () => {
           total: data?.pagination?.totalItems,
           pageSize: pageSize,
           onChange: handleTableChange,
-          showSizeChanger: true, // Bật chọn số items per page
+          showSizeChanger: true, 
           showTotal: (total, range) => 
             `${range[0]}-${range[1]} of ${total} rows`,
-          onShowSizeChange: handlePageSizeChange, // Handle khi đổi page size
-          pageSizeOptions: ['3' ,'10', '20', '50', '100'], // Các option cho page size
+          onShowSizeChange: handlePageSizeChange,
+          pageSizeOptions: ['3' ,'10', '20', '50', '100'], 
           }
         }
       />

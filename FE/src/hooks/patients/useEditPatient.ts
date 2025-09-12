@@ -4,6 +4,7 @@ import type { TApiResult } from "../../services/types";
 import type { IPatient } from "../../services/apis/patients/type-common";
 import { EditPatientApi } from "../../services/apis/patients/edit/edit-patient.svc";
 import type { IEditPatientInput } from "../../services/apis/patients/edit/edit-patient.type";
+import { toast } from "react-toastify";
 
 export function useEditPatient() {
   const client = useApolloClient();
@@ -23,6 +24,7 @@ export function useEditPatient() {
 
       apiRef.current!.attach(observer);
       apiRef.current!.execute(input)
+        .then(() => toast.success("Patient updated successfully"))
         .catch((error) => {
           onResult({ status: "error", message: error.message });
         })
