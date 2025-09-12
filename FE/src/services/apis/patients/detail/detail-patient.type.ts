@@ -1,4 +1,9 @@
+import type { GENDER } from "../../../../app/common-type";
 import type { IPatient } from "../type-common";
+
+export interface IPatientDetailInput {
+  patientId: string | number;
+}
 
 export interface IPatientDetailResponse {
   patient: IPatient & {
@@ -8,7 +13,7 @@ export interface IPatientDetailResponse {
       email?: string;
       title?: string;
       phone?: string;
-      gender?: any;
+      gender?: GENDER;
       dob?: string;
     };
   } | null;

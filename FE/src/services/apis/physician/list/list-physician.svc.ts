@@ -1,6 +1,6 @@
 
 import { ApolloClient } from "@apollo/client";
-import { GraphqlCaller } from "../../api-base.svc";
+import { GraphqlCaller } from "../../api-base-query.svc";
 
 import { LIST_PHYSICIAN_QUERY, type IListPatientsVariables } from "./list-physician.query";
 import type { IListPhysiciansResponse } from "./list-physician.type";

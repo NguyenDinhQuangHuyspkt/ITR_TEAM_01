@@ -1,16 +1,11 @@
 import { ApolloClient } from "@apollo/client";
-import { GraphqlCaller } from "../../api-base.svc";
+import { GraphqlCaller } from "../../api-base-query.svc";
 import { PATIENT_DETAIL_QUERY } from "./detail-patient.query";
-// import type { IPatient } from "../type-common";
-import type { IPatientDetailResponse } from "./detail-patient.type";
+import type { IPatientDetailInput, IPatientDetailResponse } from "./detail-patient.type";
 
-interface IPatientDetailVariables {
-  patientId: string | number;
-}
-
-export class PatientDetailApi extends GraphqlCaller<
+export class DetailPatientApi extends GraphqlCaller<
   IPatientDetailResponse["patient"],
-  IPatientDetailVariables,
+  IPatientDetailInput,
   IPatientDetailResponse
 > {
   constructor(client: ApolloClient) {

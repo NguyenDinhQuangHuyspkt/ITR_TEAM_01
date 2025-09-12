@@ -22,7 +22,6 @@ const ModalCreatePatient = () => {
       <Modal
         open={open}
         title="Create a new patient"
-        // onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
