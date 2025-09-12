@@ -16,7 +16,7 @@ interface ISubject<T> {
 
 export abstract class GraphqlCaller<
   TData,       // Parsed data type
-  TVariables extends NoInfer<OperationVariables> | undefined,  // Input variables cho query/mutation
+  TVariables extends NoInfer<OperationVariables | undefined> | undefined,  // Input variables cho query/mutation
   TRawResponse // Raw response from GraphQL
 > implements ISubject<TApiResult<TData>> {
   protected observers: IObserver<TApiResult<TData>>[] = [];
@@ -36,10 +36,28 @@ export abstract class GraphqlCaller<
     this.observers = this.observers.filter((obs) => obs !== observer);
   }
 
+  detachAll(): void {
+    this.observers = [];
+  }
+
   notify(): void {
     for (const obs of this.observers) {
       obs.update(this.result);
     }
+  }
+
+  public getResult(): TApiResult<TData> {
+    return this.result;
+  }
+
+  public subscribe(callback: () => void): () => void {
+    const observer: IObserver<TApiResult<TData>> = {
+      update: () => callback(),
+    };
+    this.attach(observer);
+    return () => {
+      this.detach(observer);
+    };
   }
 
   public async execute(variables: TVariables) {

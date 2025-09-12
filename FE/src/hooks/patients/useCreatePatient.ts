@@ -1,37 +1,43 @@
-import { useApolloClient } from "@apollo/client/react";
 import { useCallback, useRef } from "react";
+import { useApolloClient } from "@apollo/client/react";
 import { CreatePatientApi } from "../../services/apis/patients/create/create-patient.svc";
-import type { TApiResult } from "../../services/types";
-import type { IPatient } from "../../services/apis/patients/type-common";
 import type { ICreatePatientInput } from "../../services/apis/patients/create/create-patient.type";
+import type { IPatient } from "../../services/apis/patients/type-common";
+import type { TApiResult } from "../../services/types";
 
 export function useCreatePatient() {
   const client = useApolloClient();
-  const apiRef = useRef<CreatePatientApi>(null);
+  const apiRef = useRef<CreatePatientApi | null>(null);
 
-  if (!apiRef.current) {
-    apiRef.current = new CreatePatientApi(client);
-  }
+  const createPatient = useCallback(
+    async (
+      input: ICreatePatientInput,
+      onResult?: (result: TApiResult<IPatient>) => void
+    ) => {
+      if (!apiRef.current) {
+        apiRef.current = new CreatePatientApi(client);
+      }
+      const api = apiRef.current;
 
-  const execute = useCallback(
-    (input: ICreatePatientInput, onResult: (result: TApiResult<IPatient>) => void) => {
       const observer = {
-        update: (result: TApiResult<IPatient>) => {
-          onResult(result);
+        update(result: TApiResult<IPatient>) {
+          onResult?.(result);
         },
       };
 
-      apiRef.current!.attach(observer);
-      apiRef.current!.execute({ input })
-        .catch((error) => {
-          onResult({ status: "error", message: error.message });
-        })
-        .finally(() => {
-          apiRef.current!.detach(observer);
-        });
+      api.attach(observer);
+      try {
+        const res = await api.execute({ input });
+        return res;
+      } catch (err) {
+        onResult?.({ status: "error", message: (err as Error).message });
+        throw err;
+      } finally {
+        api.detach(observer);
+      }
     },
-    []
+    [client]
   );
 
-  return { createPatient: execute };
+  return { createPatient };
 }

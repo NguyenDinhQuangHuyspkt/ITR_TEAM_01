@@ -1,21 +1,24 @@
 import type { ColumnsType } from "antd/es/table";
 import type { IPatient } from "../../../services/apis/patients/type-common";
-import { Button } from "antd";
 import "./style.scss"
 import ModalDeletePatient from "../../modals/modal-delete-patient";
+import ModalPatientDetail from "../../modals/modal-patient-detail";
+import ModalEditPatient from "../../modals/modal-edit-patient";
 
 // eslint-disable-next-line react-refresh/only-export-components
-const CellAction = ({ id }: { id: string }) => {
+const CellAction = ({ patient }: { patient: IPatient }) => {
   return (
     <div className="cell-action">
-      <Button variant='solid'>Edit</Button>
+      <ModalEditPatient patient ={patient}/>
 
-      <ModalDeletePatient id={id}/>
+      <ModalDeletePatient id={patient.id}/>
+
+      <ModalPatientDetail patientId={patient.id}/>
     </div>
   )
 }
 
-export const columns : ColumnsType<IPatient> = [
+export const columns : ColumnsType<IPatient | undefined> = [
   {
     title: 'Email',
     dataIndex: 'email',
@@ -45,9 +48,8 @@ export const columns : ColumnsType<IPatient> = [
   {
     title: 'Action',
     key: 'action',
-    render: (record) => {
-      console.log("Record in Action column:", record);
-      return <CellAction id={record.id} />
+    render: (record: IPatient) => {
+      return <CellAction patient={record} />
     },
   }
 ];

@@ -1,33 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useApolloClient } from "@apollo/client/react";
-import type { IPatient } from "../../services/apis/patients/type-common";
 import { ListPatientsApi } from "../../services/apis/patients/list/list-patients.svc";
-import type { TApiResult } from "../../services/types";
+import { useApiResult } from "../useApiResult";
+import type { IPatient } from "../../services/apis/patients/type-common";
+import type { IListPatientsResponse } from "../../services/apis/patients/list/list-patients.type";
 
 export function useListPatients(pagination: { page: number; limit: number }) {
   const client = useApolloClient();
-  const [data, setData] = useState<IPatient[]>([]);
-  const [loading, setLoading] = useState(false);
+
+  const apiRef = useRef<ListPatientsApi>(null);
+  if (!apiRef.current) {
+    apiRef.current = new ListPatientsApi(client);
+  }
+  const api = apiRef.current;
+
+  const result = useApiResult<
+    IPatient[],
+    { pagination: { page: number; limit: number } },
+    IListPatientsResponse
+  >(api);
 
   useEffect(() => {
-    const api = new ListPatientsApi(client);
-
-    const observer = {
-      update: (result: TApiResult<IPatient[]>) => {
-        setLoading(result.status === "loading");
-        if (result.status === "success" && result.data) {
-          setData((result.data || []).filter((item): item is IPatient => item !== undefined));
-        }
-      },
-    };
-
-    api.attach(observer);
     api.execute({ pagination }).catch(() => {});
+  }, [api, pagination]);
 
-    return () => {
-      api.detach(observer);
-    };
-  }, [client, pagination.limit, pagination.page, pagination]);
+  const loading = result.status === "loading";
+  const data = result.status === "success" ? result.data : [];
+  const error = result.status === "error" ? result.message : null;
 
-  return { data, loading };
+  return { data, loading, error };
 }

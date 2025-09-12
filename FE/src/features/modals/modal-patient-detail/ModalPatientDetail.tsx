@@ -1,49 +1,51 @@
-import { Modal, Descriptions, Spin, Empty, Row, Col } from "antd";
-import { useEffect, useState } from "react";
-import { useApolloClient } from "@apollo/client/react";
-import type { TApiResult } from "../../../services/types";
+import { Modal, Descriptions, Spin, Empty, Row, Col, Button } from "antd";
+import {  useState } from "react";
 import type { IPatient } from "../../../services/apis/patients/type-common";
-import { PatientDetailApi } from "../../../services/apis/patients/detail/detail-patient.svc";
+import { EyeOutlined } from "@ant-design/icons";
+import { useDetailPatient } from "../../../hooks/patients/useDetailPatient";
 
-type Props = {
-    open: boolean;
+type TModalPatientDetailProps = {
     patientId: string | null;
-    onClose: () => void;
 };
 
-const ModalPatientDetail = ({ open, patientId, onClose }: Props) => {
-
-    console.log("patientID: ", patientId);
-
-    const client = useApolloClient();
+const ModalPatientDetail = ({  patientId }: TModalPatientDetailProps) => {
     const [loading, setLoading] = useState(false);
+
+    const [openDetail, setOpenDetail] = useState(false);
     const [patient, setPatient] = useState<DeepPartial<IPatient> | null>(null);
 
-    useEffect(() => {
-        if (!open || patientId == null) return;
+    const { detailPatient } = useDetailPatient();
 
-        const detailApi = new PatientDetailApi(client);
+    const onOpenDetail = () => {
+        setOpenDetail(true);
 
-        const observer = {
-            update: (result: TApiResult<IPatient | null>) => {
-                setLoading(result.status === "loading");
-                if (result.status === "success") {
-                    setPatient((result.data as DeepPartial<IPatient>) ?? null);
-                }
-            },
-        };
+        if (!patientId) return;
 
-        detailApi.attach(observer);
-        detailApi.execute({ patientId: patientId }).catch(() => { });
+        detailPatient({ patientId }, (result) => {
+            setLoading(result.status === "loading");
+            if (result.status === "success") {
+                setPatient(result?.data || null);
+            } else if (result.status === "error") {
+                console.error("Error fetching patient detail:", result?.message);
+            }
+        });
+    }
 
-        return () => {
-            detailApi.detach(observer);
-        };
-    }, [client, patientId]);
+    const onCloseDetail = () => {
+        setOpenDetail(false);
+    }
 
-    console.log("patient: ", patient);
     return (
-        <Modal open={open} title="Patient Detail" onCancel={onClose} footer={null} width={1000}>
+        <>
+        <Button icon ={<EyeOutlined />} onClick={onOpenDetail}/>
+
+        <Modal 
+            open={openDetail} 
+            title="Patient Detail" 
+            onCancel={onCloseDetail} 
+            footer={null} 
+            width={1000}
+        >
             {loading ? (
                 <Spin />
             ) : !patient ? (
@@ -76,6 +78,7 @@ const ModalPatientDetail = ({ open, patientId, onClose }: Props) => {
                 </Row>
             )}
         </Modal>
+    </>
     );
 };
 

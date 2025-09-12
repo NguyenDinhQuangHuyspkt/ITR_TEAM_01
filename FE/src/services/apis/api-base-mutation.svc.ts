@@ -1,6 +1,5 @@
-import type { ApolloClient, DocumentNode } from "@apollo/client";
+import type { ApolloClient, DocumentNode, OperationVariables } from "@apollo/client";
 import type { TApiResult } from "../types";
-import type { OperationVariables } from "@apollo/client";
 
 interface IObserver<T> {
   update(state: T): void;
@@ -40,18 +39,36 @@ export abstract class GraphqlMutationCaller<
     }
   }
 
+  public getResult(): TApiResult<TData> {
+    return this.result;
+  }
+
+  public subscribe(callback: () => void): () => void {
+    const observer: IObserver<TApiResult<TData>> = {
+      update: () => callback(),
+    };
+    this.attach(observer);
+    return () => {
+      this.detach(observer);
+    };
+  }
+
   public async execute(variables: TVariables) {
     this.result = { status: "loading" };
     this.notify();
 
     try {
-      const resp = await this.client.mutate<TRawResponse>({ mutation: this.mutation, variables });
+      const resp = await this.client.mutate<TRawResponse>({
+        mutation: this.mutation,
+        variables,
+      });
 
       if (!resp.data) {
         this.result = { status: "error" };
         this.notify();
         throw new Error("No data returned from GraphQL mutation");
       }
+
       const parsed = this.dataParser(resp.data);
 
       this.result = { status: "success", data: parsed };

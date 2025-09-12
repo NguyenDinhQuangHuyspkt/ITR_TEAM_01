@@ -12,30 +12,33 @@ const FormCreatePatient = () => {
 
   const [form] = Form.useForm();
 
-  const onSubmitForm = () => {
-    createPatient(
-      {
-        email: form.getFieldValue('email'),
-        phone: form.getFieldValue('phone'),
-        gender: form.getFieldValue('gender'),
-        physicianId: form.getFieldValue('physicianId'),
-        dob: form.getFieldValue('dob')?.toISOString(),
+  const onSubmitForm = async () => {
+    try {
+      const values = await form.validateFields();
+      const payload = {
+        email: values.email,
+        phone: values.phone,
+        gender: values.gender,
+        physicianId: values.physicianId,
+        dob: values.dob ? values.dob.toISOString() : undefined,
         addressInfo: {
-          address: form.getFieldValue('address'),
-          city: form.getFieldValue('city'),
-          state: form.getFieldValue('state'),
-          country: form.getFieldValue('country'),
-        }
-      },
-      (result) => {
+          address: values.address,
+          city: values.city,
+          state: values.state,
+          country: values.country,
+        },
+      };
+
+      await createPatient(payload, (result) => {
         if (result.status === "success") {
-          console.log("Patient created successfully:", result.data);
           form.resetFields();
         } else if (result.status === "error") {
-          console.error("Error creating patient:", result?.message);
+          console.error("Create patient error:", result.message);
         }
-      }
-    );
+      });
+    } catch (err) {
+      console.warn("Submit failed", err);
+    }
   };
 
   return (

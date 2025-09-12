@@ -1,5 +1,5 @@
 import { ApolloClient } from "@apollo/client";
-import { GraphqlCaller } from "../../api-base.svc";
+import { GraphqlCaller } from "../../api-base-query.svc";
 import { LIST_PATIENTS_QUERY } from "./list-patients.query";
 import type { IPatient } from "../type-common";
 import type { IListPatientsResponse } from "./list-patients.type";
@@ -10,7 +10,7 @@ interface IListPatientsVariables {
     limit: number;
   };
   filter?: {
-    email: String;
+    email: string;
   }
 }
 
