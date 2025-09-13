@@ -1,10 +1,17 @@
 import ListPatients from "../../features/lists/list-patients";
-import './style.scss'
+// import Footer from "./Footer";
+import './style.scss';
 
 const MainPage = () => {
   return (
-      <ListPatients />
-  )
-}
+    <>
+      <div className="main-content">
+        <ListPatients />
+      </div>
 
-export default MainPage
+      {/* <Footer /> */}
+    </>
+  );
+};
+
+export default MainPage;

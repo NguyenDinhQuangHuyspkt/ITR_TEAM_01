@@ -1,3 +1,47 @@
-.wrapper{
-  padding: 20px;
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // chiếm hết chiều cao màn hình
+}
+
+.main-content {
+  flex: 1; // đẩy footer xuống cuối
+}
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  background: #f0f2f5;
+  padding: 16px;
+  text-align: center;
+  border-top: 1px solid #d9d9d9;
+  font-family: 'Quicksand', sans-serif;
+
+  .footer-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1890ff;
+  }
+
+  .members {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+
+    .member {
+      .name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+      .role {
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
 }
