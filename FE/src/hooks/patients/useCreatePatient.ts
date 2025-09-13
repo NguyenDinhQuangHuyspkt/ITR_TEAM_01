@@ -33,7 +33,12 @@ export function useCreatePatient() {
         return res;
       } catch (err) {
         onResult?.({ status: "error", message: (err as Error).message });
-        toast.error("Create patient failed");
+
+        if ((err as Error).message.includes('duplicate')) {
+          toast.error(`Email Patient has existed !`)
+        } else {
+          toast.error(`Create patient failed !`);
+        }
         throw err;
       } finally {
         api.detach(observer);

@@ -27,7 +27,12 @@ export function useEditPatient() {
         .then(() => toast.success("Patient updated successfully"))
         .catch((error) => {
           onResult({ status: "error", message: error.message });
-          toast.error("Update patient failed");
+          
+          if (error.message.includes('duplicate')) {
+            toast.error(`Email Patient has existed !`)
+          } else {
+            toast.error(`Update patient failed !`);
+          }
         })
         .finally(() => {
           apiRef.current!.detach(observer);

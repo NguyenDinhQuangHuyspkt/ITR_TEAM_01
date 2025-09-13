@@ -1,5 +1,5 @@
 import ListPatients from "../../features/lists/list-patients";
-// import Footer from "./Footer";
+import Footer from "./Footer";
 import './style.scss';
 
 const MainPage = () => {
@@ -9,7 +9,7 @@ const MainPage = () => {
         <ListPatients />
       </div>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

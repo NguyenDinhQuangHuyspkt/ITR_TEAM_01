@@ -57,27 +57,8 @@
       }
     }
   }
-
-  /* Pagination */
-  .ant-pagination.ant-table-pagination {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    font-family: "Quicksand", sans-serif !important;
-
-    .ant-pagination-total-text {
-      flex: 1 !important;
-      order: -1 !important;
-      text-align: left !important;
-    }
-
-    .ant-pagination-prev,
-    .ant-pagination-item,
-    .ant-pagination-next,
-    .ant-pagination-options {
-      order: 1 !important;
-    }
+}
+  
 .list-patients-header {
   display: flex;
   justify-content: space-between;
