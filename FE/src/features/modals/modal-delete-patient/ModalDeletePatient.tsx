@@ -1,6 +1,7 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import { useDeletePatient } from "../../../hooks/patients/useDeletePatient";
+import { DeleteOutlined } from "@ant-design/icons";
 
 interface IModalDeletePatientProps {
   id: string;
@@ -37,7 +38,7 @@ const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback}
   return (
     <>
       <Button danger onClick={showModal} variant='outlined'>
-        Delete
+        <DeleteOutlined />
       </Button>
 
       <Modal

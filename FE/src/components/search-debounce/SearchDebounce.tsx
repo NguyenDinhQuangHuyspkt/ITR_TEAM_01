@@ -31,8 +31,8 @@ const SearchDebounce: React.FC<SearchDebounceProps> = ({
 
   return (
       <Input
+        style={{ width: 300}}
         type='text'
-        width={100}
         value={search}
         onChange={handleSearchChange}
         placeholder={placeholder}

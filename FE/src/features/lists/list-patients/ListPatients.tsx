@@ -51,38 +51,37 @@ const ListPatients = () => {
   };
 
   return (
-    <section className="list-patients">
-      <section className="list-patients-header">
-        <h2>List of Patients</h2>
-        
-        <ModalCreatePatient onCallback={onFetchListPatients}/>
-      </section>
-
-      <SearchDebounce placeholder="Input email" onSubmit={onSearch} />
-
-      <Table
-        className="ant-table-cell"
-        dataSource={data?.patients ?? []}
-        columns={columns}
-        loading={loading}
-        rowKey="id"
-
-        pagination={{
-          className: 'custom-table-pagination',
-          current: currentPage,
-          total: data?.pagination?.totalItems,
-          pageSize: pageSize,
-          onChange: handleTableChange,
-          showSizeChanger: true, 
-          showTotal: (total, range) => 
-            `${range[0]}-${range[1]} of ${total} rows`,
-          onShowSizeChange: handlePageSizeChange,
-          pageSizeOptions: ['3' ,'10', '20', '50', '100'], 
-          }
-        }
-      />
+  <section className="list-patients">
+    <section className="list-patients-header">
+      <h2>List of Patients</h2>
+      <ModalCreatePatient onCallback={onFetchListPatients}/>
     </section>
-  );
+
+    <SearchDebounce placeholder="Input email" onSubmit={onSearch} />
+
+    <Table
+      className="list-patients-table"
+      dataSource={data?.patients ?? []}
+      columns={columns}
+      loading={loading}
+      size="large"
+      rowKey="id"
+      rowClassName={"custom-row"}
+      pagination={{
+        className: "custom-table-pagination",
+        current: currentPage,
+        total: data?.pagination?.totalItems,
+        pageSize: pageSize,
+        onChange: handleTableChange,
+        showSizeChanger: true,
+        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} rows`,
+        onShowSizeChange: handlePageSizeChange,
+        pageSizeOptions: ["3", "10", "20", "50", "100"],
+      }}
+    />
+  </section>
+);
+
 };
 
 export default ListPatients;

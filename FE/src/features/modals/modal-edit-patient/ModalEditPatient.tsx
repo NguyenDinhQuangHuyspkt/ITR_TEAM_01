@@ -2,6 +2,7 @@ import { Button, Modal } from "antd";
 import { useState } from "react";
 import FormEditPatient from "../../form/form-edit-patient";
 import type { IPatient } from "../../../services/apis/patients/type-common";
+import { EditOutlined } from "@ant-design/icons";
 
 interface IModalEditPatientProps {
   patient: IPatient;
@@ -22,7 +23,7 @@ const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient , onCallbac
   return (
     <>
       <Button onClick={showModal}>
-        Edit 
+          <EditOutlined /> 
       </Button>
 
       <Modal

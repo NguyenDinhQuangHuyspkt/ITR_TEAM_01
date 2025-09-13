@@ -9,7 +9,7 @@ import { formatDate } from "../../../utils/format-date.utils";
 // eslint-disable-next-line react-refresh/only-export-components
 const CellAction = ({ patient, onCallback }: { patient: IPatient , onCallback?: ()=> void}) => {
   return (
-    <div className="cell-action">
+    <div className="action-buttons">
       <ModalEditPatient patient ={patient} onCallback = {onCallback}/>
 
       <ModalDeletePatient id={patient.id} onCallback={onCallback}/>
