@@ -7,6 +7,8 @@ import SelectPhySical from "../../select/select-physical";
 import { useEditPatient } from "../../../hooks/patients/useEditPatient";
 import type { IPatient } from "../../../services/apis/patients/type-common";
 
+import { patientFormRules } from "../../../utils/validation";
+
 interface IFormEditPatientProps {
   patient: IPatient;
   onSuccess?: () => void;
@@ -76,39 +78,39 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess})
       style={{ maxWidth: 'auto' }}
       onFinish={onSubmitForm}
     >
-      <Form.Item className="ant-form-item-label" label={labels.email} name="email">
+      <Form.Item className="ant-form-item-label" label={labels.email} name="email" rules={patientFormRules.email}>
         <Input />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.phone} name="phone">
+      <Form.Item className="ant-form-item-label" label={labels.phone} name="phone" rules={patientFormRules.phone}>
         <Input />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.gender} name="gender">
+      <Form.Item className="ant-form-item-label" label={labels.gender} name="gender" rules={patientFormRules.gender}>
         <SelectGender />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.physician} name="physicianId">
+      <Form.Item className="ant-form-item-label" label={labels.physician} name="physicianId" rules={patientFormRules.physician}>
         <SelectPhySical />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.dob} name="dob">
+      <Form.Item className="ant-form-item-label" label={labels.dob} name="dob" rules={patientFormRules.dob}>
         <DatePicker />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.address} name="address">
+      <Form.Item className="ant-form-item-label" label={labels.address} name="address" rules={patientFormRules.address}>
         <Input />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.city} name="city">
+      <Form.Item className="ant-form-item-label" label={labels.city} name="city" rules={patientFormRules.city}>
         <Input />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.state} name="state">
+      <Form.Item className="ant-form-item-label" label={labels.state} name="state" rules={patientFormRules.state}>
         <Input />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.country} name="country">
+      <Form.Item className="ant-form-item-label" label={labels.country} name="country" rules={patientFormRules.country}>
         <Input />
       </Form.Item>
 

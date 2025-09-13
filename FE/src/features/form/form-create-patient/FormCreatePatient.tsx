@@ -2,6 +2,7 @@ import { Button, DatePicker, Form, Input } from "antd";
 import { genLabelsFormCreatePatient } from "./utils";
 import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
+import { patientFormRules } from "../../../utils/validation";
 import "./style.scss";
 import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
 
@@ -64,16 +65,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.email} 
-          name ="email"
-          rules={
-            [
-              { 
-                required: true, 
-                message: 'Please input email!',
-                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ,
-                type: 'string'
-              }
-            ]}
+          name="email"
+          rules={patientFormRules.email}
         >
           <Input />
         </Form.Item>
@@ -82,16 +75,7 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
           className="ant-form-item-label" 
           label={labels.phone} 
           name="phone"
-          rules={
-            [
-              { 
-                required: true, 
-                message: 'Please input phone number!',
-                pattern: /^\d{10}$/,
-                type: 'string',
-                len: 10
-              }
-            ]}
+          rules={patientFormRules.phone}
         >
           <Input/>
         </Form.Item>
@@ -99,27 +83,17 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.gender} 
-          name ='gender'
-          rules={[
-            { 
-              required: true, 
-              message: 'Please select gender'
-            }
-          ]}
+          name="gender"
+          rules={patientFormRules.gender}
         >
           <SelectGender value={form.getFieldValue('gender')}/>
         </Form.Item>
 
         <Form.Item 
           className="ant-form-item-label" 
-          label = {labels.physician} 
-          name = 'physicianId'
-          rules={[
-            { 
-              required: true, 
-              message: 'Please select physician'
-            }
-          ]}
+          label={labels.physician} 
+          name="physicianId"
+          rules={patientFormRules.physician}
         >
           <SelectPhySical />
         </Form.Item>
@@ -127,13 +101,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.dob} 
-          name='dob'
-          rules={[
-            { 
-              required: true, 
-              message: 'Please select date of birth'
-            }
-          ]}
+          name="dob"
+          rules={patientFormRules.dob}
         >
           <DatePicker />
         </Form.Item>
@@ -141,13 +110,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.address} 
-          name ="address"
-          rules={[
-            { 
-              required: true, 
-              message: 'Please input address!'
-            }
-          ]}
+          name="address"
+          rules={patientFormRules.address}
         >
           <Input />
         </Form.Item>
@@ -155,14 +119,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.city} 
-          name ="city"
-          rules={[
-            { 
-              required: true, 
-              message: 'Please input city!',
-              type: 'string'
-            }
-          ]}
+          name="city"
+          rules={patientFormRules.city}
         >
           <Input />
         </Form.Item>
@@ -170,13 +128,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label" 
           label={labels.state} 
-          name ="state"
-          rules={[
-            { 
-              required: true, 
-              message: 'Please input state!'
-            }
-          ]}
+          name="state"
+          rules={patientFormRules.state}
         >
           <Input />
         </Form.Item>
@@ -184,14 +137,8 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         <Form.Item 
           className="ant-form-item-label"
           label={labels.country} 
-          name ="country" 
-          rules={[
-            { 
-              required: true, 
-              message: 'Please input country!',
-              type: 'string'
-            }
-          ]}
+          name="country" 
+          rules={patientFormRules.country}
         >
           <Input />
         </Form.Item>

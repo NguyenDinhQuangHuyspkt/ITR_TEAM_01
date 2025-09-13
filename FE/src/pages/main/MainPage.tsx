@@ -1,15 +1,17 @@
 import ListPatients from "../../features/lists/list-patients";
-import Footer from "./Footer";
+import Footer from "../../components/footer/Footer";
 import './style.scss';
 
 const MainPage = () => {
   return (
     <>
-      <div className="main-content">
-        <ListPatients />
-      </div>
+      <div className="main-layout">
+        <div className="main-content">
+          <ListPatients />
+        </div>
 
-      <Footer />
+        <Footer />
+      </div>
     </>
   );
 };
