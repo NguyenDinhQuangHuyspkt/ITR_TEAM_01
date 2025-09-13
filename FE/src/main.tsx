@@ -8,18 +8,19 @@ import { HttpLink } from '@apollo/client';
 import { InMemoryCache } from '@apollo/client';
 import { ToastContainer } from 'react-toastify';
 
+const apiUrl = import.meta.env.VITE_API_URL;  
+
 const link = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: apiUrl,
 });
 const client = new ApolloClient({link, cache: new InMemoryCache()});
 
 createRoot(document.getElementById('root')!).render(
   <ApolloProvider client={client}>
     <App />
-
     <ToastContainer
       position="bottom-right"
-      autoClose={1000}
+      autoClose={2000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick

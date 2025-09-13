@@ -10,6 +10,7 @@
 - **Member B: Phan Văn Tài**:
   - BE
     - Thiết kế GraphQL schema (Patients/Physicians), resolver, service (Mongoose), khởi tạo Apollo Server.
+    - Middleware kiểm tra email, phone trước khi qua service thực hiện vs database.
     - Pagination, filter theo email, populate physician
     - Soft delete cho Patient: `patient_status.isActive = false`
     - Seed và cấu hình kết nối MongoDB<br>
