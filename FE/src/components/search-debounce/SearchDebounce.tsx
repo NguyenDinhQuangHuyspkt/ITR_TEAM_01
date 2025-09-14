@@ -1,15 +1,18 @@
 import { Input } from "antd";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent, type ComponentProps } from "react";
 
-interface SearchDebounceProps {
+interface SearchDebounceProps extends Omit<ComponentProps<typeof Input>, 'onChange' | 'onSubmit'> {
   onSubmit?: (values: { search: string }) => void;
   className?: string;
   placeholder?: string;
 }
 
+const TIME_OUT_DEBOUNCE = 300; // milliseconds
+
 const SearchDebounce: React.FC<SearchDebounceProps> = ({
   onSubmit,
   placeholder,
+  ...props
 }) => {
   const [search, setSearch] = useState("");
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -26,7 +29,7 @@ const SearchDebounce: React.FC<SearchDebounceProps> = ({
 
     typingTimeoutRef.current = setTimeout(() => {
       onSubmit({ search: value });
-    }, 300);
+    }, TIME_OUT_DEBOUNCE);
   };
 
   return (
@@ -36,6 +39,7 @@ const SearchDebounce: React.FC<SearchDebounceProps> = ({
         value={search}
         onChange={handleSearchChange}
         placeholder={placeholder}
+        {...props}
       />
 
   );

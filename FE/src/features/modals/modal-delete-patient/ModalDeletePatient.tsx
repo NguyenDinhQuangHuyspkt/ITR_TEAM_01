@@ -1,14 +1,16 @@
+// ...existing code...
 import { Button, Modal } from "antd";
 import { useState } from "react";
 import { useDeletePatient } from "../../../hooks/patients/useDeletePatient";
 import { DeleteOutlined } from "@ant-design/icons";
+import "./style.scss";
 
-interface IModalDeletePatientProps {
+interface IModalDeletePatientProps extends React.ComponentProps<typeof Modal> {
   id: string;
   onCallback?: () => void;
 }
 
-const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback}) => {
+const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback , ...props}) => {
   const [open, setOpen] = useState(false);
 
   const {deletePatient} = useDeletePatient();
@@ -37,7 +39,7 @@ const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback}
 
   return (
     <>
-      <Button danger onClick={showModal} variant='outlined'>
+      <Button danger onClick={showModal} className="delete-trigger">
         <DeleteOutlined />
       </Button>
 
@@ -46,17 +48,19 @@ const ModalDeletePatient : React.FC<IModalDeletePatientProps>= ({id ,onCallback}
         title="Delete Patient"
         onCancel={handleCancel}
         footer={null}
+        className="modal-delete-patient"
+        {...props}
       >
-        <h3 style={{ textAlign: "center" , color: "red", textTransform: "uppercase"}}>
+        <h3 className="delete-confirm-title">
           Are you sure to delete this patient?
         </h3>
 
-        <section style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "20px" }}>
-          <Button style={{ width: "100%" }} onClick={handleCancel}>
+        <section className="delete-actions">
+          <Button onClick={handleCancel}>
             Cancel
           </Button>
 
-          <Button danger style={{ width: "100%" }} onClick={onConfirmDelete}>
+          <Button danger onClick={onConfirmDelete}>
             Confirm Delete
           </Button>
         </section>

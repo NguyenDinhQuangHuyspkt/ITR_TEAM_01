@@ -3,13 +3,14 @@ import { useState } from "react";
 import FormEditPatient from "../../form/form-edit-patient";
 import type { IPatient } from "../../../services/apis/patients/type-common";
 import { EditOutlined } from "@ant-design/icons";
+import "./style.scss";
 
-interface IModalEditPatientProps {
+interface IModalEditPatientProps extends React.ComponentProps<typeof Modal> {
   patient: IPatient;
   onCallback?: () => void;
 }
 
-const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient , onCallback }) => {
+const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient , onCallback, ...props }) => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -31,6 +32,9 @@ const ModalEditPatient : React.FC<IModalEditPatientProps>= ({patient , onCallbac
         title="Edit patient"
         onCancel={handleCancel}
         footer={null}
+        centered
+        className="custom-edit-patient-modal"
+        {...props}
       >
         <FormEditPatient 
           patient ={patient} 

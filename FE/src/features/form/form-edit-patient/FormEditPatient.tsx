@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { Button, DatePicker, Form, Input } from "antd";
 import dayjs from "dayjs";
-import { genLabelsFormEditPatient } from "./utils";
+import { genLabelsFormEditPatient, patientFormRules } from "./utils";
 import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
 import { useEditPatient } from "../../../hooks/patients/useEditPatient";
 import type { IPatient } from "../../../services/apis/patients/type-common";
-
-import { patientFormRules } from "../../../utils/validation";
+import "./style.scss";
 
 interface IFormEditPatientProps {
   patient: IPatient;
@@ -77,45 +76,113 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess})
       layout="horizontal"
       style={{ maxWidth: 'auto' }}
       onFinish={onSubmitForm}
+      className="edit-patient-form"
     >
-      <Form.Item className="ant-form-item-label" label={labels.email} name="email" rules={patientFormRules.email}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.email} 
+        name="email" 
+        rules={patientFormRules.email}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.phone} name="phone" rules={patientFormRules.phone}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.phone} 
+        name="phone" 
+        rules={patientFormRules.phone}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.gender} name="gender" rules={patientFormRules.gender}>
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.gender} 
+        name="gender" 
+        rules={patientFormRules.gender}
+      >
         <SelectGender />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.physician} name="physicianId" rules={patientFormRules.physician}>
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.physician} 
+        name="physicianId" 
+        rules={patientFormRules.physician}
+      >
         <SelectPhySical />
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.dob} name="dob" rules={patientFormRules.dob}>
-        <DatePicker />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.dob} 
+        name="dob" 
+        rules={patientFormRules.dob}
+      >
+        <DatePicker style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.address} name="address" rules={patientFormRules.address}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.address} 
+        name="address" 
+        rules={patientFormRules.address}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.city} name="city" rules={patientFormRules.city}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.city} 
+        name="city" 
+        rules={patientFormRules.city}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.state} name="state" rules={patientFormRules.state}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.state} 
+        name="state" 
+        rules={patientFormRules.state}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item className="ant-form-item-label" label={labels.country} name="country" rules={patientFormRules.country}>
-        <Input />
+      <Form.Item 
+        className="ant-form-item-label full-width" 
+        label={labels.country} 
+        name="country" 
+        rules={patientFormRules.country}
+      >
+        <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
       </Form.Item>
 
-      <Form.Item label={null}>
-        <Button type="primary" htmlType="submit">
+      <Form.Item label={null}  wrapperCol={{ span: 24 }} style={{ textAlign: 'center' }}>
+        <Button 
+          type="primary" 
+          htmlType="submit" 
+          style={{ 
+            padding: '0 32px', 
+            borderRadius: 8 , 
+            fontFamily: "Quicksand, sans-serif"
+          }}
+        >
           Edit
         </Button>
       </Form.Item>

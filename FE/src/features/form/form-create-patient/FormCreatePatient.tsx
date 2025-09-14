@@ -1,10 +1,10 @@
 import { Button, DatePicker, Form, Input } from "antd";
-import { genLabelsFormCreatePatient } from "./utils";
+import { genLabelsFormCreatePatient, patientFormRules } from "./utils";
 import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
-import { patientFormRules } from "../../../utils/validation";
 import "./style.scss";
 import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
+import { toast } from "react-toastify";
 
 interface IFormCreatePatientProps {
   onSuccess?: () => void;
@@ -47,6 +47,7 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
           
         } else if (result.status === "error") {
           console.error("Create patient error:", result.message);
+          toast .error(`Create patient failed: ${result.message}`);
         }
       });
     } catch (err) {
@@ -61,27 +62,34 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         style={{ maxWidth: 600 }}
+        className="create-patient-form"
       >
-        <Form.Item 
-          className="ant-form-item-label" 
+        <div className="form-grid">
+          <Form.Item 
+          className="ant-form-item-label full-width" 
           label={labels.email} 
           name="email"
           rules={patientFormRules.email}
         >
-          <Input />
+          <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.phone} 
           name="phone"
           rules={patientFormRules.phone}
         >
-          <Input/>
+          <Input style={{
+            fontFamily: "Quicksand, sans-serif"
+          }}
+          />
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.gender} 
           name="gender"
           rules={patientFormRules.gender}
@@ -90,62 +98,84 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
-          label={labels.physician} 
-          name="physicianId"
-          rules={patientFormRules.physician}
+          className="ant-form-item-label full-width" 
+          label = {labels.physician} 
+          name = 'physicianId'
+          rules={[
+            { 
+              required: true, 
+              message: 'Please select physician'
+            }
+          ]}
         >
           <SelectPhySical />
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.dob} 
           name="dob"
           rules={patientFormRules.dob}
         >
-          <DatePicker />
+          <DatePicker 
+            style={{
+              fontFamily: "Quicksand, sans-serif"
+            }}
+          />
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.address} 
           name="address"
           rules={patientFormRules.address}
         >
-          <Input />
+          <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.city} 
           name="city"
           rules={patientFormRules.city}
         >
-          <Input />
+          <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label" 
+          className="ant-form-item-label full-width" 
           label={labels.state} 
           name="state"
           rules={patientFormRules.state}
         >
-          <Input />
+          <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
         </Form.Item>
 
         <Form.Item 
-          className="ant-form-item-label"
+          className="ant-form-item-label full-width"
           label={labels.country} 
           name="country" 
           rules={patientFormRules.country}
         >
-          <Input />
+          <Input style={{
+          fontFamily: "Quicksand, sans-serif"
+        }}/>
         </Form.Item>
 
-        <Form.Item label={null}>
-          <Button type="primary" htmlType="submit" onClick={onSubmitForm}>
-            Submit
+        </div>
+        <Form.Item label={null} wrapperCol={{ span: 24 }} style={{ textAlign: 'center' }}>
+          <Button 
+            type="primary" 
+            htmlType="submit" 
+            onClick={onSubmitForm} 
+            style={{ padding: '0 32px', borderRadius: 8 , fontFamily: "Quicksand, sans-serif"}}>
+            Create
           </Button>
         </Form.Item>
       </Form>

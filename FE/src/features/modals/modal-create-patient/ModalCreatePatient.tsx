@@ -1,13 +1,15 @@
 import { Button, Modal } from "antd";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import FormCreatePatient from "../../form/form-create-patient";
+import "./style.scss";
 
-interface IModalCreatePatientProps {
+interface IModalCreatePatientProps extends ComponentProps<typeof Modal> {
   onCallback?: () => void;
 }
 
 const ModalCreatePatient : React.FC<IModalCreatePatientProps> = ({
-  onCallback
+  onCallback,
+  ...props
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -30,6 +32,9 @@ const ModalCreatePatient : React.FC<IModalCreatePatientProps> = ({
         title="Create a new patient"
         onCancel={handleCancel}
         footer={null}
+        centered
+        className="custom-create-patient-modal"
+        {...props}
       >
         <FormCreatePatient 
           onSuccess={()=>{

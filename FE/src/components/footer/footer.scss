@@ -1,11 +1,10 @@
-/* src/components/footer/footer.scss */
 .app-footer {
+  position:fixed;
+  bottom: 0;
   width: 100%;
   background: #f0f2f5;
   padding: 16px;
   text-align: center;
   border-top: 1px solid #d9d9d9;
   font-family: 'Quicksand', sans-serif;
-  // margin-top: auto; /* đẩy footer xuống đáy */
-
 }

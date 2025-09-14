@@ -76,7 +76,7 @@ const ListPatients = () => {
         showSizeChanger: true,
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} rows`,
         onShowSizeChange: handlePageSizeChange,
-        pageSizeOptions: ["3", "10", "20", "50", "100"],
+        pageSizeOptions: PAGINATION.PAGE_SIZE_OPTIONS,
       }}
     />
   </section>

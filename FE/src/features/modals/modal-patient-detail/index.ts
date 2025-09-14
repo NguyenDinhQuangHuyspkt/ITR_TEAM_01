@@ -1,3 +1,1 @@
-export { default } from "./ModalPatientDetail";
-
-
+export { default } from "./ModalDetailPatient";

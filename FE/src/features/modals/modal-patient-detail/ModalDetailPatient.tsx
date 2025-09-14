@@ -3,12 +3,13 @@ import {  useState } from "react";
 import type { IPatient } from "../../../services/apis/patients/type-common";
 import { EyeOutlined } from "@ant-design/icons";
 import { useDetailPatient } from "../../../hooks/patients/useDetailPatient";
+import './style.scss'
 
-type TModalPatientDetailProps = {
+interface TModalPatientDetailProps extends React.ComponentProps<typeof Modal> {
     patientId: string | null;
 };
 
-const ModalPatientDetail = ({  patientId }: TModalPatientDetailProps) => {
+const ModalPatientDetail = ({  patientId ,...props}: TModalPatientDetailProps) => {
     const [loading, setLoading] = useState(false);
 
     const [openDetail, setOpenDetail] = useState(false);
@@ -45,6 +46,8 @@ const ModalPatientDetail = ({  patientId }: TModalPatientDetailProps) => {
             onCancel={onCloseDetail} 
             footer={null} 
             width={1000}
+            className="modal-patient-detail"
+            {...props}
         >
             {loading ? (
                 <Spin />
