@@ -4,7 +4,7 @@ import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
 import "./style.scss";
 import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 interface IFormCreatePatientProps {
   onSuccess?: () => void;
@@ -47,7 +47,7 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
           
         } else if (result.status === "error") {
           console.error("Create patient error:", result.message);
-          toast .error(`Create patient failed: ${result.message}`);
+          // toast .error(`Create patient failed: ${result.message}`);
         }
       });
     } catch (err) {
