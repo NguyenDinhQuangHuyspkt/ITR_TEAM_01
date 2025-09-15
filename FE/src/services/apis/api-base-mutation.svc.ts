@@ -1,83 +1,39 @@
 import type { ApolloClient, DocumentNode, OperationVariables } from "@apollo/client";
-import type { TApiResult } from "../types";
-
-interface IObserver<T> {
-  update(state: T): void;
-}
-
-interface ISubject<T> {
-  attach(observer: IObserver<T>): void;
-  detach(observer: IObserver<T>): void;
-  notify(): void;
-}
+import { GraphqlCaller } from "./api-base-query.svc";
 
 export abstract class GraphqlMutationCaller<
   TData,
   TVariables extends NoInfer<OperationVariables> | undefined,
   TRawResponse
-> implements ISubject<TApiResult<TData>> {
-  protected observers: IObserver<TApiResult<TData>>[] = [];
-  protected result: TApiResult<TData> = { status: "idle" };
-
+> extends GraphqlCaller<TData, TVariables, TRawResponse> {
   constructor(
-    protected client: ApolloClient,
-    protected mutation: DocumentNode,
-    protected dataParser: (raw: TRawResponse) => TData
-  ) {}
-
-  attach(observer: IObserver<TApiResult<TData>>): void {
-    this.observers.push(observer);
-  }
-
-  detach(observer: IObserver<TApiResult<TData>>): void {
-    this.observers = this.observers.filter((obs) => obs !== observer);
-  }
-
-  notify(): void {
-    for (const obs of this.observers) {
-      obs.update(this.result);
-    }
-  }
-
-  public getResult(): TApiResult<TData> {
-    return this.result;
-  }
-
-  public subscribe(callback: () => void): () => void {
-    const observer: IObserver<TApiResult<TData>> = {
-      update: () => callback(),
-    };
-    this.attach(observer);
-    return () => {
-      this.detach(observer);
-    };
+    client: ApolloClient,
+    mutation: DocumentNode,
+    dataParser: (raw: TRawResponse) => TData
+  ) {
+    super(client, mutation, dataParser);
   }
 
   public async execute(variables: TVariables) {
-    this.result = { status: "loading" };
-    this.notify();
+    this.setResult({ status: "loading" });
 
     try {
       const resp = await this.client.mutate<TRawResponse>({
-        mutation: this.mutation,
+        mutation: this.query, // dùng lại query từ base
         variables,
       });
 
       if (!resp.data) {
-        this.result = { status: "error" };
-        this.notify();
+        this.setResult({ status: "error", message: "No data returned from GraphQL mutation" });
         throw new Error("No data returned from GraphQL mutation");
       }
 
       const parsed = this.dataParser(resp.data);
-
-      this.result = { status: "success", data: parsed };
-      this.notify();
+      this.setResult({ status: "success", data: parsed });
 
       return parsed;
     } catch (error) {
-      this.result = { status: "error" };
-      this.notify();
+      this.setResult({ status: "error", message: (error as Error).message });
       throw error;
     }
   }

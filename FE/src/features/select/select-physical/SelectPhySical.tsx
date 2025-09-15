@@ -43,6 +43,7 @@ const SelectPhySical = ({value, onChange}: ISelectPhySicalProps) => {
       loading={loading}
       onChange={onHandleChange}
       options={parseDataToOptions()}
+      style={{fontFamily: "Quicksand, sans-serif"}}
     />
   )
 }

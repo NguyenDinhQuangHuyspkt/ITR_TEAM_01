@@ -43,7 +43,7 @@ export const renderColumns = (onCallback?: () => void) : ColumnsType<IPatient | 
       render: (dob) => dob ? formatDate(dob) : ''
     },
     {
-      title: 'Physician',
+      title: 'Physician Id',
       dataIndex: 'physician',
       key: 'physician',
       render: (physician) => physician?.id

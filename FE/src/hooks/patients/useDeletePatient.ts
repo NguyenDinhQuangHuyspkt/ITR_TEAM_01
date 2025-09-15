@@ -3,8 +3,9 @@ import { useCallback, useRef } from "react";
 import type { TApiResult } from "../../services/types";
 import type { IPatient } from "../../services/apis/patients/type-common";
 import { DeletePatientApi } from "../../services/apis/patients/delete/delete-patient.svc";
-import type { IDeletePatientInput } from "../../services/apis/patients/delete/delete-patient.type";
+import type { IDeletePatientInput, IDeletePatientResponse } from "../../services/apis/patients/delete/delete-patient.type";
 import { toast } from "react-toastify";
+import { useApiResult } from "../useApiResult";
 
 export function useDeletePatient() {
   const client = useApolloClient();
@@ -13,28 +14,29 @@ export function useDeletePatient() {
   if (!apiRef.current) {
     apiRef.current = new DeletePatientApi(client);
   }
+  const api = apiRef.current;
+
+  const result = useApiResult<
+    IPatient,
+    IDeletePatientInput,
+    IDeletePatientResponse
+  >(api);
 
   const execute = useCallback(
     (input: IDeletePatientInput, onResult: (result: TApiResult<IPatient>) => void) => {
-      const observer = {
-        update: (result: TApiResult<IPatient>) => {
-          onResult(result);
-        },
-      };
-
-      apiRef.current!.attach(observer);
-      apiRef.current!.execute(input)
-        .then(()=> toast.success("Patient deleted successfully"))
-        .catch((error) => {
-          onResult({ status: "error", message: error.message });
-          toast.error("Delete patient failed");
-        })
-        .finally(() => {
-          apiRef.current!.detach(observer);
+      try {
+        api.execute(input).then((deleted) => {
+          toast.success("Delete patient successfully");
+          onResult({ status: "success", data: deleted });
         });
+      } catch (err) {
+        onResult({ status: "error", message: 'Delete failed' });
+        toast.error("Delete patient failed !");
+        throw err;
+      }
     },
-    []
+    [api]
   );
 
-  return { deletePatient: execute };
+  return { deletePatient: execute, result};
 }

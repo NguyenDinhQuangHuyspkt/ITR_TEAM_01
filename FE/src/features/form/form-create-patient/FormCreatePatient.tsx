@@ -4,6 +4,7 @@ import SelectGender from "../../select/select-gender";
 import SelectPhySical from "../../select/select-physical";
 import "./style.scss";
 import { useCreatePatient } from "../../../hooks/patients/useCreatePatient";
+import dayjs from "dayjs";
 // import { toast } from "react-toastify";
 
 interface IFormCreatePatientProps {
@@ -121,6 +122,10 @@ const FormCreatePatient : React.FC<IFormCreatePatientProps>= ({
             style={{
               fontFamily: "Quicksand, sans-serif"
             }}
+            disabledDate={(current) => {
+              const customDate = dayjs().format("YYYY-MM-DD");
+              return current && current > dayjs(customDate, "YYYY-MM-DD");
+            }} 
           />
         </Form.Item>
 
