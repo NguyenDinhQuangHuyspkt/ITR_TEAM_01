@@ -124,9 +124,12 @@ const FormEditPatient: React.FC<IFormEditPatientProps> = ({ patient ,onSuccess})
         name="dob" 
         rules={patientFormRules.dob}
       >
-        <DatePicker style={{
+        <DatePicker 
+          style={{
           fontFamily: "Quicksand, sans-serif"
-        }}/>
+          }}
+          disabledDate={(current) => current && current > dayjs().endOf('day')}
+        />
       </Form.Item>
 
       <Form.Item 
