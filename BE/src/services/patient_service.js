@@ -2,8 +2,9 @@ const Patient = require('../models/patient_model');
 const { PAGINATION } = require('../config/constant');
 const validatePatientInput = require('../middleware/validate_patient');
 const physician = require('../models/physician_model');
+const { buildProjectionAndPopulate } = require('../utils/graphql_projection');
 class PatientService {
-  async findAll(paginationInput = {}, filter = {}) {
+  async findAll(paginationInput = {}, filter = {}, info) {
     const page = paginationInput.page || PAGINATION.DEFAULT_PAGE;
     const limit = Math.min(
       paginationInput.limit || PAGINATION.DEFAULT_LIMIT,
@@ -17,12 +18,29 @@ class PatientService {
       query.email = { $regex: filter.email, $options: 'i' };
     }
 
-    const patients = await Patient.find(query)
-      .populate({
+    const { projection, populateSelects } = buildProjectionAndPopulate(info, {
+      rootFieldName: 'patients',
+      fieldWhitelist: ['id', 'email', 'phone', 'gender', 'dob', 'physician', 'addressInfo'],
+      nestedPopulate: {
+        physician: ['id', 'email', 'title', 'phone', 'gender', 'dob']
+      }
+    });
+
+    let queryBuilder = Patient.find(query);
+
+    if (populateSelects.physician) {
+      queryBuilder = queryBuilder.populate({
         path: 'physician',
         model: physician,
-        select: "id"
-      })
+        select: populateSelects.physician,
+      });
+    }
+
+    if (projection) {
+      queryBuilder = queryBuilder.select(projection);
+    }
+
+    const patients = await queryBuilder
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
@@ -47,30 +65,65 @@ class PatientService {
     return Patient.find(
       {
         'patient_status.isActive': true
-      }, 
+      },
       'email phone gender dob'
     );
   }
 
-  async findById(id) {
-    return Patient.findById(
-      { 
-        _id: id, 
-        'patient_status.isActive': true 
+  async findById(id, info) {
+    const { projection, populateSelects } = buildProjectionAndPopulate(info, {
+      fieldWhitelist: ['id', 'email', 'phone', 'gender', 'dob', 'physician', 'addressInfo'],
+      nestedPopulate: {
+        physician: ['id', 'email', 'title', 'phone', 'gender', 'dob']
       }
-    ).populate({
-      path: 'physician',
-      model: physician,
     });
+
+    let queryBuilder = Patient.findById(
+      {
+        _id: id,
+        'patient_status.isActive': true
+      }
+    );
+
+    if (populateSelects.physician) {
+      queryBuilder = queryBuilder.populate({
+        path: 'physician',
+        model: physician,
+        select: populateSelects.physician,
+      });
+    }
+
+    if (projection) {
+      queryBuilder = queryBuilder.select(projection);
+    }
+
+    return queryBuilder;
   }
 
-  async findByPhysician(physicianId) {
-    return Patient.find(
-      { 
+  async findByPhysician(physicianId, info) {
+    const { projection, populateSelects } = buildProjectionAndPopulate(info, {
+      fieldWhitelist: ['id', 'email', 'phone', 'gender', 'dob', 'physician', 'addressInfo'],
+      nestedPopulate: {
+        physician: ['id', 'email', 'title', 'phone', 'gender', 'dob']
+      }
+    });
+
+    let queryBuilder = Patient.find(
+      {
         physician: physicianId,
         'patient_status.isActive': true
       }
-    ).populate('physician');
+    );
+
+    if (populateSelects.physician) {
+      queryBuilder = queryBuilder.populate({ path: 'physician', model: physician, select: populateSelects.physician });
+    }
+
+    if (projection) {
+      queryBuilder = queryBuilder.select(projection);
+    }
+
+    return queryBuilder;
   }
 
   async create(data) {
@@ -87,7 +140,7 @@ class PatientService {
 
   async update(id, data) {
     await validatePatientInput(data);
-    
+
     const updateData = { ...data };
     if (data.physicianId) {
       updateData.physician = data.physicianId;

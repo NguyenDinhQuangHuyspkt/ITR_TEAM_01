@@ -1,0 +1,6 @@
+type Query {
+  physicians: [Physician!]!
+  physician(id: ID!): Physician
+}
+
+

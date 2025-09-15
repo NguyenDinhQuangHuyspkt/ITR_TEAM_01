@@ -2,14 +2,14 @@ const patientService = require('../../services/patient_service');
 
 const patientResolvers = {
   Query: {
-    patients_list: async (_, { pagination, filter }) => {
-      return patientService.findAll(pagination, filter);
+    patients_list: async (_, { pagination, filter }, __, info) => {
+      return patientService.findAll(pagination, filter, info);
     },
-    patient: async (_, { id }) => {
-      return patientService.findById(id);
+    patient: async (_, { id }, __, info) => {
+      return patientService.findById(id, info);
     },
-    patientsByPhysician: async (_, { physicianId }) => {
-      return patientService.findByPhysician(physicianId);
+    patientsByPhysician: async (_, { physicianId }, __, info) => {
+      return patientService.findByPhysician(physicianId, info);
     },
   },
   Mutation: {

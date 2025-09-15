@@ -1,0 +1,9 @@
+input UpdatePhysicianInput {
+  email: String
+  title: String
+  phone: String
+  gender: Gender
+  dob: String
+}
+
+

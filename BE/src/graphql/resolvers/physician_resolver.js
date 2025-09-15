@@ -3,11 +3,11 @@ const PhysicianService = require('../../services/physician_service');
 
 const physicianResolvers = {
   Query: {
-    physicians: async () => {
-      return await PhysicianService.findAll();
+    physicians: async (_, __, ___, info) => {
+      return await PhysicianService.findAll(info);
     },
-    physician: async (_, { id }) => {
-      return await PhysicianService.findById(id);
+    physician: async (_, { id }, ___, info) => {
+      return await PhysicianService.findById(id, info);
     }
   },
   Mutation: {

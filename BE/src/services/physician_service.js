@@ -1,19 +1,30 @@
 const { PAGINATION } = require('../config/constant');
 const Physician = require('../models/physician_model');
+const { buildProjectionAndPopulate } = require('../utils/graphql_projection');
 
 class PhysicianService {
-    async findAll() {
+    async findAll(info) {
         try {
-            return await Physician.find();
+            const { projection } = buildProjectionAndPopulate(info, {
+                fieldWhitelist: ['id','email','title','phone','gender','dob']
+            });
+            const query = Physician.find();
+            if (projection) query.select(projection);
+            return await query;
         } catch (err) {
             console.error('Error fetching physicians:', err);
             return [];
         }
     }
 
-    async findById(id) {
+    async findById(id, info) {
         try {
-            return await Physician.findById(id);
+            const { projection } = buildProjectionAndPopulate(info, {
+                fieldWhitelist: ['id','email','title','phone','gender','dob']
+            });
+            const query = Physician.findById(id);
+            if (projection) query.select(projection);
+            return await query;
         } catch (err) {
             console.error('Error fetching physician:', err);
             return null;

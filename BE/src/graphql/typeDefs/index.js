@@ -1,29 +1,10 @@
-const commonTypeDefs = require('./common_typedef');
+const { loadFilesSync } = require('@graphql-tools/load-files');
+const { mergeTypeDefs } = require('@graphql-tools/merge');
+const path = require('path');
 
-// patient
-const patientType = require('./patient/type');
-const patientInput = require('./patient/input');
-const patientQuery = require('./patient/query');
-const patientMutation = require('./patient/mutation');
+const typesArray = loadFilesSync(path.join(__dirname), {
+  extensions: ['graphql'],
+  recursive: true,
+});
 
-// physician
-const physicianType = require('./physician/type');
-const physicianInput = require('./physician/input');
-const physicianQuery = require('./physician/query');
-const physicianMutation = require('./physician/mutation');
-
-module.exports = [
-  commonTypeDefs,
-  // patient
-  patientType,
-  patientInput,
-  patientQuery,
-  patientMutation,
-  // physician
-  physicianType,
-  physicianInput,
-  physicianQuery,
-  physicianMutation,
-];
-
-
+module.exports = mergeTypeDefs(typesArray);
