@@ -67,7 +67,7 @@ export abstract class GraphqlCaller<
     this.setResult({ status: "loading" });
 
     try {
-      const resp = await this.client.query<TRawResponse>({ query: this.query, variables,fetchPolicy:'network-only' });
+      const resp = await this.client.query<TRawResponse>({ query: this.query, variables,fetchPolicy:'no-cache' });
 
       if (resp.data === undefined) {
         this.setResult({ status: "error", message: "No data returned from GraphQL response" });

@@ -14,29 +14,25 @@ export function useDetailPatient() {
     apiRef.current = new DetailPatientApi(client);
   }
 
+  const api = apiRef.current;
+
   useEffect(() => {
     return ()=> apiRef?.current?.detachAll();
   }, []);
 
   const execute = useCallback(
     (input: IPatientDetailInput, onResult: (result: TApiResult<IPatient>) => void) => {
-      const observer = {
-        update: (result: TApiResult<IPatient>) => {
-          onResult(result);
-        },
-      };
-
-      apiRef.current!.attach(observer);
-      apiRef.current!.execute(input)
-        .catch((error) => {
-          onResult({ status: "error", message: error.message });
-          toast.error("Fetch patient detail failed");
-        })
-        .finally(() => {
-          apiRef.current!.detach(observer);
+      try {
+        api.execute(input).then((patient) => {
+          onResult({ status: "success", data: patient ?? undefined });
         });
+      } catch (err) {
+        onResult({ status: "error", message: 'Fetch detail patient failed' });
+        toast.error("Fetch detail patient failed !");
+        throw err;
+      }
     },
-    []
+    [api]
   );
  
    return { detailPatient: execute };

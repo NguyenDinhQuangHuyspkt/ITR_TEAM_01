@@ -13,32 +13,22 @@ export function useEditPatient() {
   if (!apiRef.current) {
     apiRef.current = new EditPatientApi(client);
   }
+  const api = apiRef.current;
 
   const execute = useCallback(
     (input: IEditPatientInput, onResult: (result: TApiResult<IPatient>) => void) => {
-      const observer = {
-        update: (result: TApiResult<IPatient>) => {
-          onResult(result);
-        },
-      };
-
-      apiRef.current!.attach(observer);
-      apiRef.current!.execute(input)
-        .then(() => toast.success("Patient updated successfully"))
-        .catch((error) => {
-          onResult({ status: "error", message: error.message });
-          
-          if (error.message.includes('duplicate')) {
-            toast.error(`Email Patient has existed !`)
-          } else {
-            toast.error(`Update patient failed !`);
-          }
-        })
-        .finally(() => {
-          apiRef.current!.detach(observer);
+      try {
+        api.execute(input).then((edited) => {
+          toast.success("Edit patient successfully");
+          onResult({ status: "success", data: edited });
         });
+      } catch (err) {
+        onResult({ status: "error", message: 'Edit failed' });
+        toast.error("Edit patient failed !");
+        throw err;
+      }
     },
-    []
+    [api]
   );
 
   return { editPatient: execute };

@@ -30,6 +30,7 @@ const SelectGender = ({
         { value: GENDER.male, label: 'Male' },
         { value: GENDER.female, label: 'Female' },
       ]}
+      style={{fontFamily: "Quicksand, sans-serif"}}
       {...props}
     />
   )
