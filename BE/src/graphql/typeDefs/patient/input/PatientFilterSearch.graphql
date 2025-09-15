@@ -1,0 +1,5 @@
+input PatientFilterSearch {
+  email: String
+}
+
+
