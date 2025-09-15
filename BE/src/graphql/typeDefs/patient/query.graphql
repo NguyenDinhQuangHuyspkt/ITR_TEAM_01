@@ -1,7 +1,0 @@
-type Query {
-  patients_list(pagination: PaginationInput, filter: PatientFilterSearch): PaginatedPatients!
-  patient(id: ID!): Patient
-  patientsByPhysician(physicianId: ID!): [Patient!]!
-}
-
-

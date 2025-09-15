@@ -1,4 +1,0 @@
-type PaginatedPatients {
-  patients: [Patient!]!
-  pagination: PaginationInfo!
-}
