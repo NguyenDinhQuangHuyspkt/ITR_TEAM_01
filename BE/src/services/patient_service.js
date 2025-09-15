@@ -134,7 +134,8 @@ class PatientService {
       physician: data.physicianId,
       patient_status: { isActive: true }
     });
-    await patient.save();
+
+    const res = await patient.save();
     return patient.populate('physician');
   }
 

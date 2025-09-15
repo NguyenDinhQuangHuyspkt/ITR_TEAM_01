@@ -5,6 +5,7 @@ const connectDB = require('./config/database');
 const schema = require('./graphql/schema');
 require('dotenv').config();
 const seedPhysicians = require('./seed/physician_seed');
+const createLoaders = require('./data-loader/context');
 
 const PORT = process.env.PORT || 4000;
 
@@ -23,8 +24,11 @@ async function startServer() {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => {
-        return { req };
+    context: async ({ req }) => {
+        return {
+        req,
+        loaders: createLoaders(), 
+      };
     },
     formatError: (err) => ({ // Format lỗi cho đẹp
       message: err.message,
